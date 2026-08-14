@@ -1,16 +1,16 @@
 services:
   - type: web
     name: trendloom-backend
-    env: python
+    env: docker
     region: singapore
     plan: free
     rootDir: backend
-    buildCommand: pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: /api/health
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.11"
+      - key: PORT
+        value: "8000"
       - key: ENVIRONMENT
         value: production
       - key: DATABASE_URL
