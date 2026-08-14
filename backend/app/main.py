@@ -83,19 +83,6 @@ async def root():
         "app": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "status": "running",
-        "environment": settings.ENVIRONMENT
-    }
-
-
-@app.get("/api/health")
-async def health_check():
-    """Health check endpoint for monitoring"""
-    return {
-        "status": "healthy",
-        "app": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "environment": settings.ENVIRONMENT
-    }
         "environment": settings.ENVIRONMENT,
         "default_state": settings.DEFAULT_STATE,
         "docs": "/docs",
@@ -108,7 +95,20 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "timestamp": "2024-01-01T00:00:00Z"
+        "app": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "environment": settings.ENVIRONMENT
+    }
+
+
+@app.get("/api/health")
+async def api_health_check():
+    """Health check endpoint for monitoring"""
+    return {
+        "status": "healthy",
+        "app": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "environment": settings.ENVIRONMENT
     }
 
 
