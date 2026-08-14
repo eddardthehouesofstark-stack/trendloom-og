@@ -7,31 +7,19 @@ pydantic-settings==2.1.0
 # Database
 sqlalchemy==2.0.25
 aiosqlite==0.19.0
-psycopg2-binary==2.9.9
-asyncpg==0.29.0
 
-# Data Collection
+# Data Collection - PyTrends requires pandas
 pytrends==4.9.2
+pandas==2.1.4
+numpy==1.26.3
 requests==2.31.0
-beautifulsoup4==4.12.3
-lxml==5.1.0
 
-# AI/ML - Minimal
+# AI/ML - Only what's needed for image analysis
 pillow>=10.0.0
-numpy<2.0.0
-
-# Scheduling
-apscheduler==3.10.4
-
-# HTTP
-httpx==0.26.0
-
-# Data Processing
-pandas==2.2.0
 
 # Utilities
 python-multipart==0.0.6
 python-dotenv==1.0.1
 
-# CORS
-fastapi[all]==0.109.0
+# HTTP client
+httpx==0.26.0
