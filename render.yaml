@@ -18,6 +18,6 @@ services:
       - key: DATABASE_URL
         value: sqlite+aiosqlite:///./trendloom.db
       - key: SCHEDULER_ENABLED
-        value: "False"
+        value: "false"
       - key: DEBUG
-        value: "False"
+        value: "false"
