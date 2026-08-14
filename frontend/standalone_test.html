@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Standalone Image Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        .upload-box {
+            border: 3px dashed #0D9488;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .upload-box:hover { background: #f0fffe; }
+        #preview { max-width: 400px; margin: 20px auto; }
+        #preview img { width: 100%; border: 1px solid #ddd; border-radius: 8px; }
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .success { color: #0D9488; font-weight: bold; }
+        .error { color: #DC2626; font-weight: bold; }
+        .info { color: #3B82F6; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Standalone Image Upload Test</h1>
+    <p>This page tests image upload <strong>WITHOUT</strong> relying on api.js or attributes.js</p>
+    
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <h2>📤 Click to Upload Image</h2>
+        <p>Any image file (JPG, PNG, etc.)</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+    
+    <div id="preview" style="display:none">
+        <h3>Preview:</h3>
+        <img id="previewImg" />
+    </div>
+    
+    <div id="results">
+        <span class="info">⏳ Waiting for image upload...</span>
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('previewImg');
+        const results = document.getElementById('results');
+        
+        // Log everything
+        console.log('=== STANDALONE TEST PAGE ===');
+        console.log('Backend URL: http://localhost:8000/api/image/analyze');
+        console.log('Current URL:', window.location.href);
+        
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            console.log('File selected:', file.name, file.type, file.size);
+            results.innerHTML = '<span class="info">⏳ Processing...</span>';
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to backend
+            try {
+                console.log('[1] Creating FormData...');
+                const formData = new FormData();
+                formData.append('file', file);
+                console.log('[2] FormData created');
+                
+                console.log('[3] Sending POST request to http://localhost:8000/api/image/analyze');
+                const response = await fetch('http://localhost:8000/api/image/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('[4] Response received. Status:', response.status);
+                console.log('[5] Response headers:', [...response.headers.entries()]);
+                
+                console.log('[6] Parsing JSON...');
+                const data = await response.json();
+                console.log('[7] JSON parsed:', data);
+                
+                if (response.ok) {
+                    results.innerHTML = `<span class="success">✅ SUCCESS! HTTP ${response.status}</span>
+
+<strong>📊 Analysis Results:</strong>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Category: ${data.category}
+Confidence: ${(data.confidence * 100).toFixed(1)}%
+Style: ${data.style || 'N/A'}
+Pattern: ${data.pattern || 'N/A'}
+Material: ${data.material || 'N/A'}
+
+<strong>🎨 Colors (${data.colors ? data.colors.length : 0}):</strong>
+${data.colors ? data.colors.map(c => `  • ${c.name.toUpperCase()} - ${c.hex} (${c.percentage.toFixed(1)}%)`).join('\n') : '  None detected'}
+
+<strong>📏 Detected Attributes:</strong>
+${data.detected_attributes ? Object.entries(data.detected_attributes).map(([k, v]) => `  • ${k}: ${v}`).join('\n') : '  None'}
+
+<strong>🏷️ AI Tags:</strong>
+${data.ai_tags ? data.ai_tags.join(', ') : 'None'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<strong>Raw JSON Response:</strong>
+${JSON.stringify(data, null, 2)}`;
+                    
+                    console.log('[8] ✅ SUCCESS! Results displayed');
+                } else {
+                    results.innerHTML = `<span class="error">❌ ERROR HTTP ${response.status}</span>
+
+${JSON.stringify(data, null, 2)}`;
+                    console.error('[8] ❌ HTTP Error:', response.status, data);
+                }
+                
+            } catch (error) {
+                results.innerHTML = `<span class="error">❌ UPLOAD FAILED</span>
+
+Error: ${error.message}
+
+Stack Trace:
+${error.stack}
+
+<strong>Troubleshooting:</strong>
+1. Is backend running? Check http://localhost:8000/health
+2. CORS enabled? Backend should allow localhost:8080
+3. Network issues? Check browser console`;
+                
+                console.error('[ERROR] Upload failed:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Seasonal Intelligence - TrendLoom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#b9c7e4",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b9c7e4",
+                        "on-tertiary-fixed": "#1b1c19",
+                        "tertiary": "#000000",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f3f4f6",
+                        "on-secondary-fixed": "#00201d",
+                        "secondary": "#006a61",
+                        "outline-variant": "#c5c6cd",
+                        "on-secondary-fixed-variant": "#005049",
+                        "secondary-container": "#86f2e4",
+                        "surface-tint": "#515f78",
+                        "secondary-fixed": "#89f5e7",
+                        "surface-container-high": "#e7e8ea",
+                        "on-primary-fixed": "#0d1c32",
+                        "tertiary-fixed-dim": "#c8c6c2",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e1e2e4",
+                        "inverse-surface": "#2e3132",
+                        "tertiary-fixed": "#e4e2dd",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "primary-container": "#0d1c32",
+                        "on-secondary-container": "#006f66",
+                        "on-surface-variant": "#44474d",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f3",
+                        "outline": "#75777e",
+                        "on-tertiary-container": "#848480",
+                        "surface-container": "#edeef0",
+                        "background": "#F9F7F2", /* Custom Cream Background based on Style Guidance */
+                        "primary-fixed": "#d6e3ff",
+                        "surface-variant": "#e1e2e4",
+                        "tertiary-container": "#1b1c19",
+                        "on-surface": "#191c1e",
+                        "surface": "#ffffff", /* Changed surface to white for cards based on Style Guidance */
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#39475f",
+                        "surface-bright": "#f8f9fb",
+                        "on-primary-container": "#76849f",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "primary": "#0A192F" /* Dark Navy Primary */
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem", /* 16px radius for cards */
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "stack-lg": "32px",
+                        "sidebar-width": "280px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F9F7F2;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(10, 25, 47, 0.04);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md docked full-width top-0 bg-transparent flat no shadows flex justify-between items-center w-full px-margin-desktop py-4 sticky z-40 md:ml-sidebar-width md:w-[calc(100%-280px)] transition-opacity duration-300">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md text-primary dark:text-on-surface uppercase tracking-widest font-extrabold">TrendLoom</span>
+<nav class="hidden md:flex gap-6 ml-8">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary transition-opacity" href="#">Trends</a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed font-bold border-b-2 border-secondary hover:text-secondary transition-opacity" href="#">Regions</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary transition-opacity" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-full font-label-md text-label-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="hidden md:flex items-center gap-2 bg-[#0D9488] hover:bg-[#0f766e] text-white px-4 py-2 rounded-lg font-label-md text-label-md transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Project
+            </button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="bg-primary-container dark:bg-primary-container fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant/20 dark:border-outline/10 shadow-sm flex flex-col py-margin-desktop z-50 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="font-display-lg text-display-lg text-on-primary-fixed italic tracking-tight font-extrabold text-[32px] leading-tight">TrendLoom</span>
+<span class="font-label-sm text-label-sm text-on-primary-container mt-2">Executive Dashboard</span>
+</div>
+<div class="flex-1 overflow-y-auto pb-6">
+<!-- Workspace -->
+<div class="px-6 py-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="explore.html">
+<span class="material-symbols-outlined text-[18px]">travel_explore</span>
+            Explore Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-container/10 hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group active" href="seasonal.html">
+<span class="material-symbols-outlined text-[18px] fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+            Seasonal Intelligence
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="regional.html">
+<span class="material-symbols-outlined text-[18px]">public</span>
+            Regional Demand
+        </a>
+</nav>
+<!-- Decision Support -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Decision Support</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="competitor.html">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+            Competitor Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="recommendation.html">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+            Recommendations
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="attributes.html">
+<span class="material-symbols-outlined text-[18px]">category</span>
+            Attribute Analyzer
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+            Saved Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Reports &amp; Exports
+        </a>
+</nav>
+<!-- Workspace Management -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace Management</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+            Feedback &amp; Outcomes
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+            Settings
+        </a>
+</nav>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-sidebar-width px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col gap-stack-lg max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-outline-variant/20 pb-8 relative overflow-hidden">
+<!-- Abstract background shape -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col gap-2 z-10">
+<h1 class="font-display-lg text-display-lg md:text-[56px] md:line-height-[64px] text-primary tracking-tight">Seasonal Intelligence</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Synchronize production with global fashion cycles. Monitor key retail peaks and plan your sourcing strategy accordingly.</p>
+</div>
+<div class="flex items-center gap-4 z-10 w-full md:w-auto">
+<div class="flex bg-surface rounded-lg p-1 card-shadow border border-outline-variant/10" id="regionSelector">
+<button class="px-4 py-2 rounded-md font-label-sm text-label-sm bg-secondary/10 text-secondary font-semibold region-btn active" data-region="global" onclick="switchRegion('global')">Global</button>
+<button class="px-4 py-2 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors region-btn" data-region="na" onclick="switchRegion('na')">NA</button>
+<button class="px-4 py-2 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors region-btn" data-region="eu" onclick="switchRegion('eu')">EU</button>
+<button class="px-4 py-2 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors region-btn" data-region="apac" onclick="switchRegion('apac')">APAC</button>
+</div>
+<select id="seasonYearSelector" class="bg-surface card-shadow border border-outline-variant/10 rounded-lg px-4 py-2 font-label-sm text-label-sm text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none cursor-pointer" onchange="switchSeasonYear(this.value)">
+<option value="fw24">FW24/25</option>
+<option value="ss24">SS24</option>
+<option value="fw23">FW23/24</option>
+</select>
+</div>
+</section>
+<!-- Seasonal Trend Breakdowns -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Spring -->
+<div class="bg-surface rounded-xl overflow-hidden card-shadow border border-outline-variant/10 flex flex-col cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-secondary/30 group" onclick="showSeasonDetails('spring')">
+<!-- Season Image -->
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img id="springImg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="" alt="Spring Fashion" style="display:none;"/>
+<div id="springLoader" class="w-full h-full bg-gradient-to-br from-[#FFB6C1]/20 to-[#98FB98]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-secondary animate-pulse">local_florist</span>
+</div>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
+<span class="font-label-sm text-label-sm text-secondary font-semibold">March - May</span>
+</div>
+</div>
+<!-- Content -->
+<div class="p-6 flex flex-col gap-3 flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary text-[22px]">local_florist</span>
+<h3 class="font-headline-md text-[20px] text-primary font-bold">Spring</h3>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-2">Key Trends:</p>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface text-sm">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Pastel Color Blocking</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Lightweight Utility</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Sheer Layering</li>
+</ul>
+<div class="mt-auto pt-4 flex items-center text-secondary font-label-sm text-label-sm group-hover:gap-2 transition-all">
+Production Guide <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
+</div>
+</div>
+</div>
+
+<!-- Summer -->
+<div class="bg-surface rounded-xl overflow-hidden card-shadow border border-outline-variant/10 flex flex-col cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-[#0D9488]/30 group" onclick="showSeasonDetails('summer')">
+<!-- Season Image -->
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img id="summerImg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="" alt="Summer Fashion" style="display:none;"/>
+<div id="summerLoader" class="w-full h-full bg-gradient-to-br from-[#FFA500]/20 to-[#0D9488]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-[#0D9488] animate-pulse">light_mode</span>
+</div>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
+<span class="font-label-sm text-label-sm text-[#0D9488] font-semibold">June - August</span>
+</div>
+</div>
+<!-- Content -->
+<div class="p-6 flex flex-col gap-3 flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[#0D9488] text-[22px]">light_mode</span>
+<h3 class="font-headline-md text-[20px] text-primary font-bold">Summer</h3>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-2">Key Trends:</p>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface text-sm">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#0D9488]"></span> Open-Weave Knits</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#0D9488]"></span> Y2K Swimwear</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#0D9488]"></span> Linen Tailoring</li>
+</ul>
+<div class="mt-auto pt-4 flex items-center text-[#0D9488] font-label-sm text-label-sm group-hover:gap-2 transition-all">
+Production Guide <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
+</div>
+</div>
+</div>
+
+<!-- Autumn -->
+<div class="bg-surface rounded-xl overflow-hidden card-shadow border border-outline-variant/10 flex flex-col cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-[#b45309]/30 group" onclick="showSeasonDetails('autumn')">
+<!-- Season Image -->
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img id="autumnImg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="" alt="Autumn Fashion" style="display:none;"/>
+<div id="autumnLoader" class="w-full h-full bg-gradient-to-br from-[#b45309]/20 to-[#92400e]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-[#b45309] animate-pulse">energy_savings_leaf</span>
+</div>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
+<span class="font-label-sm text-label-sm text-[#b45309] font-semibold">Sept - Nov</span>
+</div>
+</div>
+<!-- Content -->
+<div class="p-6 flex flex-col gap-3 flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[#b45309] text-[22px]">energy_savings_leaf</span>
+<h3 class="font-headline-md text-[20px] text-primary font-bold">Autumn</h3>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-2">Key Trends:</p>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface text-sm">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#b45309]"></span> Oversized Leather</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#b45309]"></span> Earth Tones</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#b45309]"></span> Grunge Revival</li>
+</ul>
+<div class="mt-auto pt-4 flex items-center text-[#b45309] font-label-sm text-label-sm group-hover:gap-2 transition-all">
+Production Guide <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
+</div>
+</div>
+</div>
+
+<!-- Winter -->
+<div class="bg-surface rounded-xl overflow-hidden card-shadow border border-outline-variant/10 flex flex-col cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-primary-fixed-dim/30 group" onclick="showSeasonDetails('winter')">
+<!-- Season Image -->
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img id="winterImg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="" alt="Winter Fashion" style="display:none;"/>
+<div id="winterLoader" class="w-full h-full bg-gradient-to-br from-[#b9c7e4]/20 to-[#e0e7ff]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim animate-pulse">ac_unit</span>
+</div>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim font-semibold">Dec - Feb</span>
+</div>
+</div>
+<!-- Content -->
+<div class="p-6 flex flex-col gap-3 flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[22px]">ac_unit</span>
+<h3 class="font-headline-md text-[20px] text-primary font-bold">Winter</h3>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-2">Key Trends:</p>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface text-sm">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Technical Puffer</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Ski-Core Knits</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Deep Velvet</li>
+</ul>
+<div class="mt-auto pt-4 flex items-center text-primary-fixed-dim font-label-sm text-label-sm group-hover:gap-2 transition-all">
+Production Guide <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Fashion Calendar (Bento Grid Style) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Timeline Span 12 -->
+<div class="col-span-1 md:col-span-12 bg-surface rounded-xl p-6 card-shadow border border-outline-variant/10 flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-primary">Global Fashion Calendar 2026-2027</h2>
+<button class="text-secondary hover:bg-secondary/10 p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+
+<!-- Comprehensive Timeline with All Fashion Weeks -->
+<div class="space-y-8">
+
+<!-- August 2026 - CURRENT -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+August 2026 • CURRENT
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-[#ccfbf1] rounded-lg p-3 border-l-4 border-[#0D9488] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">FW26/27 Design Phase 🎯</div>
+<div class="font-label-sm text-label-sm text-secondary">Aug 1-31 • Active Now</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Copenhagen Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Aug 5-9 • Copenhagen</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Miami Swim Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Aug 14-18 • Miami</div>
+</div>
+</div>
+</div>
+
+<!-- September 2026 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+September 2026 • UPCOMING
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">New York Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 10-16 • New York</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">London Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 18-22 • London</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Milan Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 22-28 • Milan</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Paris Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 28 - Oct 6 • Paris</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Shanghai Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 12-18 • Shanghai</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Lakme Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep 22-26 • Mumbai</div>
+</div>
+</div>
+</div>
+
+<!-- October 2026 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+October 2026
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Arab Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 26-30 • Riyadh</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Lagos Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 25-29 • Lagos</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Mercedes-Benz Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 17-21 • Tbilisi</div>
+</div>
+<div class="bg-[#ccfbf1] rounded-lg p-3 border-l-4 border-[#0D9488] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">FW Production Start 🎯</div>
+<div class="font-label-sm text-label-sm text-secondary">Oct 15 • Critical Milestone</div>
+</div>
+</div>
+</div>
+
+<!-- November 2026 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+November 2026
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Indonesia Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov 9-13 • Jakarta</div>
+</div>
+<div class="bg-[#fef3c7] rounded-lg p-3 border-l-4 border-[#b45309] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Holiday Season Prep</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov 15-30 • Retail Peak</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Black Friday</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov 27 • Global Sales Peak</div>
+</div>
+</div>
+</div>
+
+<!-- December 2026 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+December 2026
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-[#fef3c7] rounded-lg p-3 border-l-4 border-[#b45309] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Holiday Shopping Peak</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Dec 1-24 • Retail Rush</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Cyber Monday</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov 30 • Online Sales Peak</div>
+</div>
+<div class="bg-[#ccfbf1] rounded-lg p-3 border-l-4 border-[#0D9488] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">SS27 Planning Start 🎯</div>
+<div class="font-label-sm text-label-sm text-secondary">Dec 15-31 • Strategy Phase</div>
+</div>
+</div>
+</div>
+
+<!-- January 2027 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+January 2027
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Paris Haute Couture</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Jan 18-21 • Paris</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Pitti Uomo</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Jan 12-15 • Florence</div>
+</div>
+<div class="bg-[#ccfbf1] rounded-lg p-3 border-l-4 border-[#0D9488] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">SS27 Production Start 🎯</div>
+<div class="font-label-sm text-label-sm text-secondary">Jan 15 • Critical Milestone</div>
+</div>
+</div>
+</div>
+
+<!-- February 2027 -->
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+February 2027
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">New York Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Feb 11-17 • New York</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">London Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Feb 19-23 • London</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Milan Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Feb 23 - Mar 1 • Milan</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Paris Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Mar 2-10 • Paris</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-primary hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Copenhagen Fashion Week</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Feb 2-6 • Copenhagen</div>
+</div>
+</div>
+</div>
+
+<!-- Fashion Contests -->
+<div class="mt-6 pt-6 border-t border-outline-variant/20">
+<h4 class="font-headline-md text-[20px] text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">emoji_events</span>
+Major Fashion Contests & Awards
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">CFDA Awards</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Jun • New York</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">British Fashion Awards</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Dec • London</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">LVMH Prize</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep • Paris</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">International Woolmark</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Year-round • Global</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Vogue Fashion Fund</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov • USA</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">GQ Men of the Year</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov • Global</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Fashion Group Int'l Awards</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Nov • New York</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3 border-l-4 border-[#FFD700] hover:shadow-md transition-all cursor-pointer">
+<div class="font-label-md text-label-md text-primary">Green Carpet Awards</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Sep • Milan</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<!-- Peak Demand Forecast (Span 8) -->
+<div class="col-span-1 md:col-span-8 bg-surface rounded-xl p-6 card-shadow border border-outline-variant/10 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary mb-1">Peak Demand Forecasting</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Projected category interest volume (Indexed to 100)</p>
+</div>
+<span class="bg-[#ecfdf5] text-[#065f46] px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1 border border-[#a7f3d0]">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> High Confidence
+                    </span>
+</div>
+<!-- Mock Chart Area with Abstract Shapes -->
+<div class="flex-1 min-h-[200px] w-full relative mt-4 rounded-lg bg-surface-bright border border-surface-variant overflow-hidden flex items-end pt-8 px-4 pb-0">
+<div class="absolute top-4 left-4 flex gap-4">
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-secondary"></div><span class="font-label-sm text-label-sm">Outerwear</span></div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-primary-fixed-dim"></div><span class="font-label-sm text-label-sm">Knitwear</span></div>
+</div>
+<!-- Simplified SVG Chart Representation -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<!-- Grid lines -->
+<line stroke="#f3f4f6" stroke-width="0.5" x1="0" x2="100" y1="10" y2="10"></line>
+<line stroke="#f3f4f6" stroke-width="0.5" x1="0" x2="100" y1="20" y2="20"></line>
+<line stroke="#f3f4f6" stroke-width="0.5" x1="0" x2="100" y1="30" y2="30"></line>
+<!-- Area 1 (Knitwear) -->
+<path d="M0,40 L0,35 Q10,30 20,38 T40,25 T60,15 T80,28 T100,10 L100,40 Z" fill="#b9c7e4" opacity="0.3"></path>
+<path d="M0,35 Q10,30 20,38 T40,25 T60,15 T80,28 T100,10" fill="none" stroke="#b9c7e4" stroke-width="1.5"></path>
+<!-- Area 2 (Outerwear) -->
+<path d="M0,40 L0,38 Q15,35 25,20 T45,8 T65,5 T85,25 T100,35 L100,40 Z" fill="#006a61" opacity="0.15"></path>
+<path d="M0,38 Q15,35 25,20 T45,8 T65,5 T85,25 T100,35" fill="none" stroke="#006a61" stroke-width="2"></path>
+</svg>
+<!-- Chart Labels -->
+<div class="absolute bottom-2 left-0 w-full flex justify-between px-6">
+<span class="font-label-sm text-[10px] text-on-surface-variant">Sep</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Oct</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Nov</span>
+<span class="font-label-sm text-[10px] text-secondary font-bold">Dec (Peak)</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Jan</span>
+</div>
+</div>
+</div>
+<!-- Seasonal Color Stories (Span 4) -->
+<div class="col-span-1 md:col-span-4 bg-surface rounded-xl p-6 card-shadow border border-outline-variant/10 flex flex-col gap-4">
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Seasonal Color Stories</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2">FW24/25 Trending Palettes</p>
+<div class="flex flex-col gap-4 flex-1 justify-center">
+<!-- Color 1 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[#0f766e] shadow-sm border border-outline-variant/10 group-hover:scale-105 transition-transform flex items-center justify-center">
+<span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity text-[18px]">content_copy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Midnight Teal</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-[10px]">#0F766E</span>
+</div>
+<div class="ml-auto w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-[#0f766e] w-[85%]"></div>
+</div>
+</div>
+<!-- Color 2 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[#a68a64] shadow-sm border border-outline-variant/10 group-hover:scale-105 transition-transform flex items-center justify-center">
+<span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity text-[18px]">content_copy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Earthy Terracotta</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-[10px]">#A68A64</span>
+</div>
+<div class="ml-auto w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-[#a68a64] w-[65%]"></div>
+</div>
+</div>
+<!-- Color 3 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[#a7a2cd] shadow-sm border border-outline-variant/10 group-hover:scale-105 transition-transform flex items-center justify-center">
+<span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity text-[18px]">content_copy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Digital Lavender</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-[10px]">#A7A2CD</span>
+</div>
+<div class="ml-auto w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-[#a7a2cd] w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Production Lead-Time Indicators (Span 12, Image Heavy) -->
+<div class="col-span-1 md:col-span-12 bg-surface rounded-xl p-0 card-shadow border border-outline-variant/10 overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px]">
+<div class="p-6 md:w-1/3 flex flex-col justify-center bg-surface relative z-10 border-r border-outline-variant/10">
+<h3 class="font-headline-md text-[24px] text-primary mb-2">Lead-Time Analysis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Start production for high-complexity outerwear by January 15th to capture the FW launch peak.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-label-md font-label-md">
+<span class="text-on-surface">Sourcing Phase</span>
+<span class="text-[#059669]">Completed</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-[#059669] h-full w-full"></div>
+</div>
+<div class="flex justify-between items-center text-label-md font-label-md mt-4">
+<span class="text-on-surface">Manufacturing</span>
+<span class="text-secondary font-bold">In Progress (Week 2/8)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-1/4 rounded-full relative">
+<div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+</div>
+</div>
+</div>
+<button onclick="showSupplierNetwork()" class="mt-8 flex items-center justify-center gap-2 w-full py-2 border border-secondary text-secondary rounded-lg font-label-md text-label-md hover:bg-secondary/5 transition-colors">
+                        View Supplier Network
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Atmospheric Image representing production/fabric -->
+<div class="relative md:w-2/3 h-64 md:h-full bg-surface-container-high">
+<div class="bg-cover bg-center w-full h-full absolute inset-0 opacity-80 mix-blend-multiply" data-alt="A moody, high-end editorial close-up of textured linen and silk fabrics draped elegantly in a dimly lit studio. Soft, cinematic lighting highlights the weave of the textiles, casting subtle shadows. The color palette features deep navies, subtle teals, and natural cream tones, evoking a sense of premium fashion production and tactile luxury. The image feels intelligent, calm, and visionary, aligning with a corporate modern minimalist aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDieA2m0YHwERQf44BC2KlBgVtmW7qEad36mM9UWyB9v5Jeq-_GOspPi9dBUpVwCvihlkpOWkCAU9kCepWFefpJf_7gk0P3ENcUYhSSpvoYNMqoKAVumwTNLjt2KuV_-y4VJJtSXiQBIZYPBuyYxu8x_SqHyuYGCngUm1luu9vxZQxle0tZ_t7Ee8s3t-HXRCNmWkm5ocXaNCoYw-d90uNiFM6mf6AsE5CRWLCptt3aBWlzOUhOLSqMUA')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/50 to-transparent md:block hidden"></div>
+<!-- Floating Data Card on Image -->
+<div class="absolute bottom-6 right-6 bg-surface/90 backdrop-blur-md p-4 rounded-lg border border-white/20 shadow-lg flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-bold text-primary">Silk Shortage Alert</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">+12 days avg. delay in APAC</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Season Details Modal -->
+<div id="seasonModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4" onclick="closeSeasonModal(event)">
+    <div class="bg-surface rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+        <!-- Modal Content -->
+        <div id="seasonModalContent"></div>
+    </div>
+</div>
+
+<!-- Supplier Network Modal -->
+<div id="supplierModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4" onclick="closeSupplierModal(event)">
+    <div class="bg-surface rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-secondary/10 to-surface p-8 border-b border-outline-variant/20 sticky top-0 z-10">
+            <button onclick="closeSupplierModal()" class="float-right text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[32px] text-secondary">factory</span>
+                </div>
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-primary">Global Supplier Network</h2>
+                    <p class="font-label-md text-label-md text-on-surface-variant">Available materials and suppliers for immediate sourcing</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-8 space-y-8" id="supplierContent">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.modal-show {
+    display: flex !important;
+}
+.modal-show > div {
+    animation: modalFadeIn 0.3s ease-out;
+}
+</style>
+
+<script>
+// ===== Region & Season Filters =====
+// Ensure these are in global scope
+window.currentRegion = 'global';
+window.currentSeason = 'fw24';
+
+console.log('Seasonal filters script loaded');
+
+// Region-specific data
+window.regionData = {
+    global: {
+        name: "Global Markets",
+        description: "Worldwide fashion trends and production intelligence",
+        adjustments: { spring: 1.0, summer: 1.0, autumn: 1.0, winter: 1.0 }
+    },
+    na: {
+        name: "North America",
+        description: "US and Canada fashion markets",
+        adjustments: { spring: 1.15, summer: 1.25, autumn: 1.1, winter: 1.3 }
+    },
+    eu: {
+        name: "Europe",
+        description: "European fashion capitals and markets",
+        adjustments: { spring: 1.2, summer: 0.95, autumn: 1.15, winter: 1.2 }
+    },
+    apac: {
+        name: "Asia-Pacific",
+        description: "Asian and Pacific region markets",
+        adjustments: { spring: 0.9, summer: 1.1, autumn: 0.85, winter: 0.7 }
+    }
+};
+
+// Season year data
+window.seasonYearData = {
+    fw24: {
+        label: "FW24/25",
+        description: "Fall/Winter 2024-2025 Collection",
+        year: "2024-2025"
+    },
+    ss24: {
+        label: "SS24",
+        description: "Spring/Summer 2024 Collection",
+        year: "2024"
+    },
+    fw23: {
+        label: "FW23/24",
+        description: "Fall/Winter 2023-2024 Collection (Past Season)",
+        year: "2023-2024"
+    }
+};
+
+// Switch region function
+window.switchRegion = function(region) {
+    console.log('switchRegion called with:', region);
+    window.currentRegion = region;
+    
+    // Update button styles
+    document.querySelectorAll('.region-btn').forEach(btn => {
+        btn.classList.remove('bg-secondary/10', 'text-secondary', 'font-semibold', 'active');
+        btn.classList.add('text-on-surface-variant');
+    });
+    
+    const activeBtn = document.querySelector(`[data-region="${region}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('bg-secondary/10', 'text-secondary', 'font-semibold', 'active');
+        activeBtn.classList.remove('text-on-surface-variant');
+    }
+    
+    // Update page content
+    updatePageContent();
+    
+    // Show notification
+    showNotification(`Switched to ${window.regionData[region].name}`);
+};
+
+// Switch season/year function
+window.switchSeasonYear = function(seasonYear) {
+    console.log('switchSeasonYear called with:', seasonYear);
+    window.currentSeason = seasonYear;
+    updatePageContent();
+    showNotification(`Viewing ${window.seasonYearData[seasonYear].label} collection`);
+};
+
+// Update page content based on region and season
+function updatePageContent() {
+    const region = window.regionData[window.currentRegion];
+    const season = window.seasonYearData[window.currentSeason];
+    
+    console.log('Updating page content:', region.name, season.label);
+    
+    // Update hero description
+    const heroDesc = document.querySelector('.font-display-lg + p');
+    if (heroDesc) {
+        heroDesc.textContent = `${region.description} • ${season.description}`;
+    }
+    
+    // Animate content update
+    const main = document.querySelector('main');
+    if (main) {
+        main.style.opacity = '0.7';
+        setTimeout(() => {
+            main.style.opacity = '1';
+            main.style.transition = 'opacity 0.3s ease-in-out';
+        }, 150);
+    }
+}
+
+// Show notification toast
+function showNotification(message) {
+    console.log('Showing notification:', message);
+    
+    // Remove existing notification
+    const existing = document.getElementById('notification-toast');
+    if (existing) existing.remove();
+    
+    // Create new notification
+    const toast = document.createElement('div');
+    toast.id = 'notification-toast';
+    toast.className = 'fixed top-24 right-8 bg-secondary text-white px-6 py-3 rounded-lg shadow-lg z-[200] flex items-center gap-2 animate-slideIn';
+    toast.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+        <span class="font-label-md text-label-md">${message}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Auto remove after 2 seconds
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.style.transition = 'all 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
+}
+
+console.log('Filters ready. Try clicking a region button!');
+
+// ===== Pexels API for Seasonal Images =====
+const PEXELS_API_KEY = 'g1qduA9qNbcI4ikZQ1ZECOyCAIAK5fJA96EzZA1kkooWRDlOGnJcMqCi';
+const PEXELS_API_URL = 'https://api.pexels.com/v1/search';
+
+// Seasonal image queries
+const seasonalQueries = {
+    spring: 'spring fashion pastel dress flowers',
+    summer: 'summer fashion beach linen bright',
+    autumn: 'autumn fashion leather jacket fall colors',
+    winter: 'winter fashion coat snow knitwear'
+};
+
+// Fetch seasonal image from Pexels
+async function fetchSeasonalImage(season) {
+    try {
+        const query = seasonalQueries[season];
+        const response = await fetch(`${PEXELS_API_URL}?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`, {
+            headers: {
+                'Authorization': PEXELS_API_KEY
+            }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch image');
+        
+        const data = await response.json();
+        if (data.photos && data.photos.length > 0) {
+            return data.photos[0].src.large;
+        }
+        return null;
+    } catch (error) {
+        console.error(`Error fetching ${season} image:`, error);
+        return null;
+    }
+}
+
+// Load all seasonal images
+async function loadSeasonalImages() {
+    console.log('Loading seasonal images from Pexels...');
+    
+    const seasons = ['spring', 'summer', 'autumn', 'winter'];
+    
+    for (const season of seasons) {
+        const imageUrl = await fetchSeasonalImage(season);
+        if (imageUrl) {
+            const img = document.getElementById(`${season}Img`);
+            const loader = document.getElementById(`${season}Loader`);
+            
+            if (img && loader) {
+                img.src = imageUrl;
+                img.style.display = 'block';
+                img.onload = () => {
+                    loader.style.display = 'none';
+                };
+            }
+        }
+    }
+    
+    console.log('Seasonal images loaded!');
+}
+
+// Load images on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadSeasonalImages();
+});
+
+// Comprehensive season data with production guidance
+const seasonData = {
+    spring: {
+        name: "Spring",
+        icon: "local_florist",
+        color: "#006a61",
+        bgColor: "#e0f2f1",
+        period: "March - May",
+        productionStart: "December - January",
+        description: "Fresh, optimistic fashion featuring pastel colors, lightweight fabrics, and transitional pieces that bridge winter and summer.",
+        
+        keyTrends: [
+            { name: "Pastel Color Blocking", demand: "92%", growth: "+24%" },
+            { name: "Lightweight Utility", demand: "85%", growth: "+18%" },
+            { name: "Sheer Layering", demand: "78%", growth: "+31%" },
+            { name: "Floral Prints", demand: "88%", growth: "+15%" },
+            { name: "Denim Revival", demand: "81%", growth: "+22%" }
+        ],
+        
+        materials: [
+            { name: "Organic Cotton", priority: "High", leadTime: "8-10 weeks", cost: "$$", sustainability: "Excellent" },
+            { name: "Linen Blends", priority: "High", leadTime: "6-8 weeks", cost: "$$$", sustainability: "Excellent" },
+            { name: "Rayon", priority: "Medium", leadTime: "4-6 weeks", cost: "$", sustainability: "Good" },
+            { name: "Chiffon", priority: "Medium", leadTime: "5-7 weeks", cost: "$$", sustainability: "Fair" }
+        ],
+        
+        colors: [
+            { name: "Powder Blue", hex: "#B0C4DE", trend: "Rising" },
+            { name: "Mint Green", hex: "#98FB98", trend: "Stable" },
+            { name: "Soft Pink", hex: "#FFB6C1", trend: "Rising" },
+            { name: "Butter Yellow", hex: "#FFF8B8", trend: "Emerging" },
+            { name: "Lavender", hex: "#E6E6FA", trend: "Stable" }
+        ],
+        
+        productionTips: [
+            "Start fabric sourcing by mid-December to secure spring pastels",
+            "Focus on breathable, lightweight materials for transitional weather",
+            "Plan for 30% increase in floral print production",
+            "Prioritize quick-dry and wrinkle-resistant finishes",
+            "Coordinate with dye houses early for pastel color accuracy"
+        ],
+        
+        targetMarkets: [
+            { region: "North America", demand: "High", peak: "April", notes: "Easter and spring break drive sales" },
+            { region: "Europe", demand: "Very High", peak: "May", notes: "Spring fashion weeks influence buying" },
+            { region: "Asia-Pacific", demand: "Medium", peak: "March", notes: "Focus on lightweight layers" }
+        ],
+        
+        timeline: {
+            designPhase: "October - November",
+            sampling: "December - January",
+            production: "January - February",
+            delivery: "Late February - Early March",
+            retail: "March - May"
+        }
+    },
+    
+    summer: {
+        name: "Summer",
+        icon: "light_mode",
+        color: "#0D9488",
+        bgColor: "#ccfbf1",
+        period: "June - August",
+        productionStart: "February - March",
+        description: "Bold, vibrant fashion with breathable fabrics, resort wear, and vacation-inspired pieces designed for hot weather and outdoor activities.",
+        
+        keyTrends: [
+            { name: "Open-Weave Knits", demand: "88%", growth: "+27%" },
+            { name: "Y2K Swimwear", demand: "94%", growth: "+42%" },
+            { name: "Linen Tailoring", demand: "79%", growth: "+19%" },
+            { name: "Tropical Prints", demand: "85%", growth: "+33%" },
+            { name: "Cut-Out Details", demand: "76%", growth: "+28%" }
+        ],
+        
+        materials: [
+            { name: "Linen", priority: "Critical", leadTime: "7-9 weeks", cost: "$$$", sustainability: "Excellent" },
+            { name: "Lycra/Spandex", priority: "Critical", leadTime: "6-8 weeks", cost: "$$", sustainability: "Fair" },
+            { name: "Cotton Jersey", priority: "High", leadTime: "5-7 weeks", cost: "$", sustainability: "Good" },
+            { name: "Mesh Fabric", priority: "Medium", leadTime: "4-6 weeks", cost: "$$", sustainability: "Fair" }
+        ],
+        
+        colors: [
+            { name: "Coral Pink", hex: "#FF6F61", trend: "Hot" },
+            { name: "Ocean Blue", hex: "#0077BE", trend: "Rising" },
+            { name: "Sunshine Yellow", hex: "#FFD700", trend: "Stable" },
+            { name: "Tropical Green", hex: "#00A86B", trend: "Emerging" },
+            { name: "White", hex: "#FFFFFF", trend: "Stable" }
+        ],
+        
+        productionTips: [
+            "Secure swimwear materials by early February due to high demand",
+            "Focus on UV-protective and quick-dry fabric treatments",
+            "Plan for 40% increase in swimwear and resort wear production",
+            "Ensure breathability and moisture-wicking properties",
+            "Coordinate with tropical print designers early"
+        ],
+        
+        targetMarkets: [
+            { region: "North America", demand: "Critical", peak: "June-July", notes: "Memorial Day and 4th of July drive early purchases" },
+            { region: "Europe", demand: "High", peak: "July", notes: "Holiday season peak demand" },
+            { region: "Australia", demand: "Low", peak: "December-January", notes: "Off-season in Southern Hemisphere" }
+        ],
+        
+        timeline: {
+            designPhase: "December - January",
+            sampling: "February - March",
+            production: "March - April",
+            delivery: "Late April - Early May",
+            retail: "June - August"
+        }
+    },
+    
+    autumn: {
+        name: "Autumn",
+        icon: "energy_savings_leaf",
+        color: "#b45309",
+        bgColor: "#fef3c7",
+        period: "September - November",
+        productionStart: "May - June",
+        description: "Rich, earthy fashion featuring layering pieces, transitional outerwear, and warm-toned fabrics perfect for cooling temperatures.",
+        
+        keyTrends: [
+            { name: "Oversized Leather", demand: "91%", growth: "+35%" },
+            { name: "Earth Tones", demand: "89%", growth: "+21%" },
+            { name: "Grunge Revival", demand: "82%", growth: "+38%" },
+            { name: "Chunky Knits", demand: "87%", growth: "+25%" },
+            { name: "Plaid Patterns", demand: "79%", growth: "+17%" }
+        ],
+        
+        materials: [
+            { name: "Wool Blends", priority: "Critical", leadTime: "10-12 weeks", cost: "$$$", sustainability: "Good" },
+            { name: "Leather/Faux Leather", priority: "High", leadTime: "8-10 weeks", cost: "$$$$", sustainability: "Fair/Good" },
+            { name: "Corduroy", priority: "High", leadTime: "6-8 weeks", cost: "$$", sustainability: "Good" },
+            { name: "Heavy Cotton", priority: "Medium", leadTime: "5-7 weeks", cost: "$", sustainability: "Excellent" }
+        ],
+        
+        colors: [
+            { name: "Rust Orange", hex: "#B7410E", trend: "Hot" },
+            { name: "Forest Green", hex: "#228B22", trend: "Rising" },
+            { name: "Burgundy", hex: "#800020", trend: "Stable" },
+            { name: "Camel", hex: "#C19A6B", trend: "Rising" },
+            { name: "Chocolate Brown", hex: "#3B2414", trend: "Stable" }
+        ],
+        
+        productionTips: [
+            "Begin wool and leather sourcing by late April for autumn collections",
+            "Focus on layering pieces and transitional outerwear",
+            "Plan for 35% increase in leather jacket and oversized coat production",
+            "Prioritize warm, textured fabrics with good drape",
+            "Coordinate early with tanneries for leather goods"
+        ],
+        
+        targetMarkets: [
+            { region: "North America", demand: "Very High", peak: "September", notes: "Back-to-school shopping drives demand" },
+            { region: "Europe", demand: "Critical", peak: "October", notes: "Transitional weather creates sustained demand" },
+            { region: "Asia", demand: "High", peak: "November", notes: "Focus on layering pieces" }
+        ],
+        
+        timeline: {
+            designPhase: "March - April",
+            sampling: "May - June",
+            production: "June - July",
+            delivery: "Late July - August",
+            retail: "September - November"
+        }
+    },
+    
+    winter: {
+        name: "Winter",
+        icon: "ac_unit",
+        color: "#6B7280",
+        bgColor: "#E5E7EB",
+        period: "December - February",
+        productionStart: "July - August",
+        description: "Warm, protective fashion featuring heavy outerwear, insulated pieces, and cozy knitwear designed for cold weather and holiday celebrations.",
+        
+        keyTrends: [
+            { name: "Technical Puffer", demand: "95%", growth: "+29%" },
+            { name: "Ski-Core Knits", demand: "88%", growth: "+33%" },
+            { name: "Deep Velvet", demand: "81%", growth: "+26%" },
+            { name: "Faux Fur", demand: "86%", growth: "+31%" },
+            { name: "Thermal Layers", demand: "92%", growth: "+22%" }
+        ],
+        
+        materials: [
+            { name: "Down/Synthetic Fill", priority: "Critical", leadTime: "12-14 weeks", cost: "$$$$", sustainability: "Fair/Good" },
+            { name: "Wool", priority: "Critical", leadTime: "10-12 weeks", cost: "$$$", sustainability: "Excellent" },
+            { name: "Velvet", priority: "High", leadTime: "7-9 weeks", cost: "$$$", sustainability: "Good" },
+            { name: "Fleece", priority: "High", leadTime: "6-8 weeks", cost: "$$", sustainability: "Fair" }
+        ],
+        
+        colors: [
+            { name: "Deep Navy", hex: "#0A192F", trend: "Stable" },
+            { name: "Emerald", hex: "#50C878", trend: "Hot" },
+            { name: "Charcoal", hex: "#36454F", trend: "Stable" },
+            { name: "Wine Red", hex: "#722F37", trend: "Rising" },
+            { name: "Silver", hex: "#C0C0C0", trend: "Emerging" }
+        ],
+        
+        productionTips: [
+            "Secure down fill and insulation materials by early June",
+            "Focus on technical fabrics with water-resistant properties",
+            "Plan for 45% increase in outerwear and puffer production",
+            "Prioritize high-loft insulation and wind-blocking materials",
+            "Start sampling early due to complex construction requirements"
+        ],
+        
+        targetMarkets: [
+            { region: "North America", demand: "Critical", peak: "November-December", notes: "Holiday shopping and cold weather drive peak sales" },
+            { region: "Europe", demand: "Very High", peak: "December-January", notes: "Extended winter season maintains demand" },
+            { region: "Asia", demand: "High", peak: "January", notes: "Lunar New Year shopping peak" }
+        ],
+        
+        timeline: {
+            designPhase: "May - June",
+            sampling: "July - August",
+            production: "August - September",
+            delivery: "Late September - October",
+            retail: "December - February"
+        }
+    }
+};
+
+// Show season details modal
+function showSeasonDetails(season) {
+    const data = seasonData[season];
+    if (!data) return;
+    
+    const modal = document.getElementById('seasonModal');
+    const content = document.getElementById('seasonModalContent');
+    
+    const html = `
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-[${data.bgColor}] to-surface p-8 border-b border-outline-variant/20">
+            <button onclick="closeSeasonModal()" class="float-right text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background-color: ${data.bgColor};">
+                    <span class="material-symbols-outlined text-[32px]" style="color: ${data.color};">${data.icon}</span>
+                </div>
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-primary">${data.name} Production Guide</h2>
+                    <p class="font-label-md text-label-md text-on-surface-variant">${data.period} • Production starts: ${data.productionStart}</p>
+                </div>
+            </div>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">${data.description}</p>
+        </div>
+        
+        <!-- Content Grid -->
+        <div class="p-8 space-y-8">
+            
+            <!-- Key Trends with Demand -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">trending_up</span>
+                    Key Trends & Demand
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${data.keyTrends.map(trend => `
+                        <div class="bg-surface-container-low rounded-lg p-4 border border-outline-variant/10">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="font-label-md text-label-md text-primary">${trend.name}</span>
+                                <span class="bg-[${data.bgColor}] px-2 py-1 rounded-full font-label-sm text-label-sm" style="color: ${data.color};">${trend.growth}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full transition-all duration-500" style="width: ${trend.demand}; background-color: ${data.color};"></div>
+                                </div>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant">${trend.demand}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </section>
+            
+            <!-- Materials & Sourcing -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">inventory_2</span>
+                    Materials & Sourcing Priority
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20">
+                                <th class="text-left py-3 px-4 font-label-md text-label-md text-on-surface-variant">Material</th>
+                                <th class="text-left py-3 px-4 font-label-md text-label-md text-on-surface-variant">Priority</th>
+                                <th class="text-left py-3 px-4 font-label-md text-label-md text-on-surface-variant">Lead Time</th>
+                                <th class="text-left py-3 px-4 font-label-md text-label-md text-on-surface-variant">Cost</th>
+                                <th class="text-left py-3 px-4 font-label-md text-label-md text-on-surface-variant">Sustainability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.materials.map(material => `
+                                <tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+                                    <td class="py-3 px-4 font-body-md text-body-md text-primary">${material.name}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="px-3 py-1 rounded-full font-label-sm text-label-sm ${
+                                            material.priority === 'Critical' ? 'bg-error-container text-error' :
+                                            material.priority === 'High' ? 'bg-[#fef3c7] text-[#b45309]' :
+                                            'bg-surface-container text-on-surface'
+                                        }">${material.priority}</span>
+                                    </td>
+                                    <td class="py-3 px-4 font-body-md text-body-md text-on-surface">${material.leadTime}</td>
+                                    <td class="py-3 px-4 font-body-md text-body-md text-on-surface">${material.cost}</td>
+                                    <td class="py-3 px-4 font-body-md text-body-md text-on-surface">${material.sustainability}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Color Palette -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">palette</span>
+                    Trending Color Palette
+                </h3>
+                <div class="flex flex-wrap gap-4">
+                    ${data.colors.map(color => `
+                        <div class="flex items-center gap-3 bg-surface-container-low rounded-lg p-3 border border-outline-variant/10 min-w-[180px]">
+                            <div class="w-12 h-12 rounded-lg shadow-sm border border-outline-variant/20" style="background-color: ${color.hex};"></div>
+                            <div>
+                                <div class="font-label-md text-label-md text-primary">${color.name}</div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant">${color.hex}</div>
+                                <div class="font-label-sm text-label-sm mt-1">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] ${
+                                        color.trend === 'Hot' ? 'bg-error-container text-error' :
+                                        color.trend === 'Rising' ? 'bg-[#fef3c7] text-[#b45309]' :
+                                        color.trend === 'Emerging' ? 'bg-[${data.bgColor}]' :
+                                        'bg-surface-container text-on-surface-variant'
+                                    }" style="${color.trend === 'Emerging' ? `background-color: ${data.bgColor}; color: ${data.color};` : ''}">${color.trend}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </section>
+            
+            <!-- Production Tips -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">lightbulb</span>
+                    Production Tips & Best Practices
+                </h3>
+                <div class="bg-[${data.bgColor}] rounded-lg p-6 border border-outline-variant/10">
+                    <ul class="space-y-3">
+                        ${data.productionTips.map(tip => `
+                            <li class="flex items-start gap-3 font-body-md text-body-md text-on-surface">
+                                <span class="material-symbols-outlined text-[20px] mt-0.5" style="color: ${data.color};">check_circle</span>
+                                <span>${tip}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Target Markets -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">public</span>
+                    Target Markets & Regional Demand
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    ${data.targetMarkets.map(market => `
+                        <div class="bg-surface-container-low rounded-lg p-4 border border-outline-variant/10">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="font-label-md text-label-md text-primary font-bold">${market.region}</span>
+                                <span class="px-2 py-1 rounded-full font-label-sm text-label-sm text-[10px] ${
+                                    market.demand === 'Critical' ? 'bg-error-container text-error' :
+                                    market.demand === 'Very High' ? 'bg-[#fef3c7] text-[#b45309]' :
+                                    market.demand === 'High' ? 'bg-[${data.bgColor}]' :
+                                    'bg-surface-container text-on-surface-variant'
+                                }" style="${market.demand === 'High' ? `background-color: ${data.bgColor}; color: ${data.color};` : ''}">${market.demand}</span>
+                            </div>
+                            <div class="font-label-sm text-label-sm text-on-surface-variant mb-2">Peak: ${market.peak}</div>
+                            <p class="font-body-md text-[14px] text-on-surface-variant">${market.notes}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </section>
+            
+            <!-- Production Timeline -->
+            <section>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="color: ${data.color};">schedule</span>
+                    Production Timeline
+                </h3>
+                <div class="bg-surface-container-low rounded-lg p-6 border border-outline-variant/10">
+                    <div class="space-y-4">
+                        ${Object.entries(data.timeline).map(([phase, time], index) => `
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center justify-center w-8 h-8 rounded-full font-label-sm text-label-sm font-bold text-white" style="background-color: ${data.color};">
+                                    ${index + 1}
+                                </div>
+                                <div class="flex-1 flex justify-between items-center">
+                                    <span class="font-label-md text-label-md text-primary capitalize">${phase.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                    <span class="font-body-md text-body-md text-on-surface-variant">${time}</span>
+                                </div>
+                            </div>
+                            ${index < Object.keys(data.timeline).length - 1 ? '<div class="w-8 h-6 flex justify-center"><div class="w-0.5 h-full bg-surface-variant"></div></div>' : ''}
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Action Buttons -->
+            <div class="flex gap-4 pt-4">
+                <button class="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-label-md text-label-md text-white transition-all hover:opacity-90" style="background-color: ${data.color};">
+                    <span class="material-symbols-outlined">download</span>
+                    Download Production Guide
+                </button>
+                <button class="flex-1 flex items-center justify-center gap-2 py-3 border rounded-lg font-label-md text-label-md transition-all hover:bg-surface-container-low" style="border-color: ${data.color}; color: ${data.color};">
+                    <span class="material-symbols-outlined">bookmark_add</span>
+                    Save to Collection
+                </button>
+            </div>
+            
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.classList.add('modal-show');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close modal
+function closeSeasonModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    
+    const modal = document.getElementById('seasonModal');
+    modal.classList.remove('modal-show');
+    document.body.style.overflow = 'auto';
+}
+
+// Close on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeSeasonModal();
+        closeSupplierModal();
+    }
+});
+
+// ===== SUPPLIER NETWORK FUNCTIONS =====
+
+// Current filter state
+let supplierFilters = {
+    country: '',
+    state: ''
+};
+
+// Comprehensive supplier data with country/state details
+const supplierData = {
+    fabrics: [
+        {
+            material: "Organic Cotton",
+            suppliers: [
+                { name: "TextileHub India", location: "Mumbai, India", country: "India", state: "Maharashtra", leadTime: "8-10 weeks", minOrder: "500 yards", price: "$$", rating: 4.8, inStock: true, specialty: "GOTS Certified" },
+                { name: "Chennai Cotton Mills", location: "Chennai, India", country: "India", state: "Tamil Nadu", leadTime: "7-9 weeks", minOrder: "400 yards", price: "$$", rating: 4.7, inStock: true, specialty: "Organic Premium" },
+                { name: "Coimbatore Textiles", location: "Coimbatore, India", country: "India", state: "Tamil Nadu", leadTime: "8-10 weeks", minOrder: "600 yards", price: "$", rating: 4.6, inStock: true, specialty: "Cost-Effective" },
+                { name: "EcoFabrics Ltd", location: "Shanghai, China", country: "China", state: "Shanghai", leadTime: "6-8 weeks", minOrder: "1000 yards", price: "$", rating: 4.6, inStock: true, specialty: "Bulk Orders" },
+                { name: "GreenWeave Co", location: "Istanbul, Turkey", country: "Turkey", state: "Istanbul", leadTime: "9-11 weeks", minOrder: "300 yards", price: "$$$", rating: 4.9, inStock: false, specialty: "Premium Quality" }
+            ]
+        },
+        {
+            material: "Linen",
+            suppliers: [
+                { name: "European Linen Co", location: "Brussels, Belgium", country: "Belgium", state: "Brussels", leadTime: "7-9 weeks", minOrder: "400 yards", price: "$$$", rating: 4.9, inStock: true, specialty: "European Linen" },
+                { name: "Baltic Textiles", location: "Riga, Latvia", country: "Latvia", state: "Riga", leadTime: "6-8 weeks", minOrder: "600 yards", price: "$$", rating: 4.7, inStock: true, specialty: "Natural Linen" },
+                { name: "Irish Linen House", location: "Dublin, Ireland", country: "Ireland", state: "Dublin", leadTime: "8-10 weeks", minOrder: "250 yards", price: "$$$$", rating: 5.0, inStock: true, specialty: "Luxury Grade" }
+            ]
+        },
+        {
+            material: "Silk",
+            suppliers: [
+                { name: "Mulberry Silk Co", location: "Suzhou, China", country: "China", state: "Jiangsu", leadTime: "5-7 weeks", minOrder: "200 yards", price: "$$$", rating: 4.8, inStock: true, specialty: "Mulberry Silk" },
+                { name: "Indian Silk Traders", location: "Bangalore, India", country: "India", state: "Karnataka", leadTime: "6-8 weeks", minOrder: "300 yards", price: "$$", rating: 4.6, inStock: true, specialty: "Diverse Varieties" },
+                { name: "Kanchipuram Silk Weavers", location: "Kanchipuram, India", country: "India", state: "Tamil Nadu", leadTime: "7-9 weeks", minOrder: "200 yards", price: "$$$", rating: 4.9, inStock: true, specialty: "Traditional Silk" },
+                { name: "Thai Silk Masters", location: "Bangkok, Thailand", country: "Thailand", state: "Bangkok", leadTime: "7-9 weeks", minOrder: "150 yards", price: "$$$$", rating: 4.9, inStock: false, specialty: "Hand-woven" }
+            ]
+        },
+        {
+            material: "Wool Blends",
+            suppliers: [
+                { name: "Australian Wool Group", location: "Sydney, Australia", country: "Australia", state: "New South Wales", leadTime: "10-12 weeks", minOrder: "800 yards", price: "$$$", rating: 4.9, inStock: true, specialty: "Merino Wool" },
+                { name: "New Zealand Textiles", location: "Auckland, NZ", country: "New Zealand", state: "Auckland", leadTime: "9-11 weeks", minOrder: "500 yards", price: "$$$$", rating: 4.8, inStock: true, specialty: "Premium Blends" },
+                { name: "Scottish Wool Mills", location: "Edinburgh, UK", country: "United Kingdom", state: "Scotland", leadTime: "11-13 weeks", minOrder: "400 yards", price: "$$$$", rating: 5.0, inStock: false, specialty: "Heritage Quality" }
+            ]
+        },
+        {
+            material: "Denim",
+            suppliers: [
+                { name: "Tirupur Denim Mills", location: "Tirupur, India", country: "India", state: "Tamil Nadu", leadTime: "6-8 weeks", minOrder: "800 yards", price: "$", rating: 4.5, inStock: true, specialty: "Export Quality" },
+                { name: "American Denim Co", location: "Los Angeles, USA", country: "USA", state: "California", leadTime: "4-6 weeks", minOrder: "1000 yards", price: "$$", rating: 4.7, inStock: true, specialty: "Stretch Denim" },
+                { name: "Japanese Selvedge", location: "Okayama, Japan", country: "Japan", state: "Okayama", leadTime: "8-10 weeks", minOrder: "300 yards", price: "$$$$", rating: 5.0, inStock: true, specialty: "Selvedge Denim" },
+                { name: "Turkish Denim Mills", location: "Istanbul, Turkey", country: "Turkey", state: "Istanbul", leadTime: "5-7 weeks", minOrder: "800 yards", price: "$", rating: 4.5, inStock: true, specialty: "Cost-effective" }
+            ]
+        },
+        {
+            material: "Polyester & Synthetics",
+            suppliers: [
+                { name: "TechFabric Asia", location: "Seoul, South Korea", country: "South Korea", state: "Seoul", leadTime: "4-6 weeks", minOrder: "2000 yards", price: "$", rating: 4.6, inStock: true, specialty: "Tech Fabrics" },
+                { name: "Recycled Poly Solutions", location: "Milan, Italy", country: "Italy", state: "Lombardy", leadTime: "6-8 weeks", minOrder: "500 yards", price: "$$", rating: 4.8, inStock: true, specialty: "Recycled Materials" },
+                { name: "Performance Textiles", location: "Taipei, Taiwan", country: "Taiwan", state: "Taipei", leadTime: "5-7 weeks", minOrder: "1500 yards", price: "$", rating: 4.5, inStock: true, specialty: "Performance Wear" }
+            ]
+        },
+        {
+            material: "Leather & Faux Leather",
+            suppliers: [
+                { name: "Italian Leather Goods", location: "Florence, Italy", country: "Italy", state: "Tuscany", leadTime: "8-10 weeks", minOrder: "100 sq ft", price: "$$$$", rating: 5.0, inStock: false, specialty: "Premium Leather" },
+                { name: "EcoLeather Innovations", location: "Barcelona, Spain", country: "Spain", state: "Catalonia", leadTime: "6-8 weeks", minOrder: "200 sq ft", price: "$$$", rating: 4.7, inStock: true, specialty: "Vegan Leather" },
+                { name: "Brazilian Leather Co", location: "São Paulo, Brazil", country: "Brazil", state: "São Paulo", leadTime: "7-9 weeks", minOrder: "300 sq ft", price: "$$", rating: 4.6, inStock: true, specialty: "Exotic Textures" }
+            ]
+        }
+    ]
+};
+
+// Get unique countries from all suppliers
+function getUniqueCountries() {
+    const countries = new Set();
+    supplierData.fabrics.forEach(category => {
+        category.suppliers.forEach(supplier => {
+            countries.add(supplier.country);
+        });
+    });
+    return Array.from(countries).sort();
+}
+
+// Get unique states for a specific country
+function getStatesForCountry(country) {
+    const states = new Set();
+    supplierData.fabrics.forEach(category => {
+        category.suppliers.forEach(supplier => {
+            if (supplier.country === country) {
+                states.add(supplier.state);
+            }
+        });
+    });
+    return Array.from(states).sort();
+}
+
+// Filter suppliers based on current filters
+function getFilteredSuppliers() {
+    let filteredData = {
+        fabrics: []
+    };
+    
+    supplierData.fabrics.forEach(category => {
+        let filteredSuppliers = category.suppliers;
+        
+        // Filter by country
+        if (supplierFilters.country) {
+            filteredSuppliers = filteredSuppliers.filter(s => s.country === supplierFilters.country);
+        }
+        
+        // Filter by state
+        if (supplierFilters.state) {
+            filteredSuppliers = filteredSuppliers.filter(s => s.state === supplierFilters.state);
+        }
+        
+        // Only include category if it has suppliers after filtering
+        if (filteredSuppliers.length > 0) {
+            filteredData.fabrics.push({
+                material: category.material,
+                suppliers: filteredSuppliers
+            });
+        }
+    });
+    
+    return filteredData;
+}
+
+// Apply supplier filters
+function applySupplierFilters() {
+    const countrySelect = document.getElementById('supplierCountryFilter');
+    const stateSelect = document.getElementById('supplierStateFilter');
+    
+    supplierFilters.country = countrySelect ? countrySelect.value : '';
+    supplierFilters.state = stateSelect ? stateSelect.value : '';
+    
+    // Update state dropdown options based on country selection
+    updateStateDropdown();
+    
+    // Re-render supplier content
+    renderSupplierContent();
+}
+
+// Update state dropdown based on selected country
+function updateStateDropdown() {
+    const stateSelect = document.getElementById('supplierStateFilter');
+    if (!stateSelect) return;
+    
+    // Clear current options except "All States"
+    stateSelect.innerHTML = '<option value="">All States</option>';
+    
+    if (supplierFilters.country) {
+        const states = getStatesForCountry(supplierFilters.country);
+        states.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            if (state === supplierFilters.state) {
+                option.selected = true;
+            }
+            stateSelect.appendChild(option);
+        });
+        stateSelect.disabled = false;
+    } else {
+        // Disable state filter if no country selected
+        stateSelect.disabled = true;
+        supplierFilters.state = '';
+    }
+}
+
+// Render supplier content with filters
+function renderSupplierContent() {
+    const content = document.getElementById('supplierContent');
+    const filteredData = getFilteredSuppliers();
+    
+    let html = '';
+    
+    // Create filter dropdowns
+    const countries = getUniqueCountries();
+    const filterHTML = `
+        <section class="bg-surface-container rounded-xl p-5 mb-6 border border-outline-variant/10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-secondary">filter_alt</span>
+                <h3 class="font-headline-sm text-headline-sm text-primary">Filter Suppliers</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="font-label-sm text-label-sm text-on-surface-variant mb-2 block">Country</label>
+                    <select id="supplierCountryFilter" onchange="applySupplierFilters()" class="w-full px-4 py-3 bg-surface-container-highest rounded-lg border border-outline-variant text-primary font-body-md focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all">
+                        <option value="">All Countries</option>
+                        ${countries.map(country => 
+                            `<option value="${country}" ${supplierFilters.country === country ? 'selected' : ''}>${country}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="font-label-sm text-label-sm text-on-surface-variant mb-2 block">State/Region</label>
+                    <select id="supplierStateFilter" onchange="applySupplierFilters()" class="w-full px-4 py-3 bg-surface-container-highest rounded-lg border border-outline-variant text-primary font-body-md focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all" ${!supplierFilters.country ? 'disabled' : ''}>
+                        <option value="">All States</option>
+                        ${supplierFilters.country ? getStatesForCountry(supplierFilters.country).map(state => 
+                            `<option value="${state}" ${supplierFilters.state === state ? 'selected' : ''}>${state}</option>`
+                        ).join('') : ''}
+                    </select>
+                </div>
+            </div>
+        </section>
+    `;
+    
+    // Generate content for each material category
+    filteredData.fabrics.forEach(category => {
+        html += `
+            <section class="mb-8">
+                <h3 class="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">inventory_2</span>
+                    ${category.material}
+                    <span class="ml-auto bg-secondary/10 text-secondary px-3 py-1 rounded-full font-label-sm text-label-sm">${category.suppliers.length} Supplier${category.suppliers.length !== 1 ? 's' : ''}</span>
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${category.suppliers.map(supplier => `
+                        <div class="bg-surface-container-low rounded-xl p-5 border border-outline-variant/10 hover:shadow-lg transition-all duration-300 cursor-pointer ${supplier.inStock ? 'hover:border-secondary/30' : 'opacity-75'}">
+                            <!-- Header -->
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <h4 class="font-label-md text-label-md text-primary font-bold mb-1">${supplier.name}</h4>
+                                    <div class="flex items-center gap-1 text-on-surface-variant mb-1">
+                                        <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                        <span class="font-label-sm text-label-sm">${supplier.location}</span>
+                                    </div>
+                                    <!-- Country and State -->
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-md font-label-sm text-label-sm text-[10px] font-semibold">${supplier.country}</span>
+                                        <span class="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded-md font-label-sm text-label-sm text-[10px]">${supplier.state}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[#FFD700] text-[16px]">star</span>
+                                    <span class="font-label-sm text-label-sm font-bold">${supplier.rating}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Status Badge -->
+                            <div class="mb-3">
+                                ${supplier.inStock 
+                                    ? '<span class="bg-[#ecfdf5] text-[#065f46] px-2 py-1 rounded-full font-label-sm text-label-sm text-[10px] flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-[12px]">check_circle</span>In Stock</span>'
+                                    : '<span class="bg-error-container text-error px-2 py-1 rounded-full font-label-sm text-label-sm text-[10px] flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-[12px]">schedule</span>Pre-order</span>'
+                                }
+                            </div>
+                            
+                            <!-- Details -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant">Lead Time:</span>
+                                    <span class="font-label-sm text-label-sm text-primary font-semibold">${supplier.leadTime}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant">Min Order:</span>
+                                    <span class="font-label-sm text-label-sm text-primary">${supplier.minOrder}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant">Price:</span>
+                                    <span class="font-label-sm text-label-sm text-primary font-bold">${supplier.price}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Specialty Badge -->
+                            <div class="mb-4">
+                                <span class="bg-primary-container text-on-primary-container px-2 py-1 rounded-md font-label-sm text-label-sm text-[10px]">${supplier.specialty}</span>
+                            </div>
+                            
+                            <!-- Action Button -->
+                            <button class="w-full py-2 ${supplier.inStock ? 'bg-secondary hover:bg-secondary/90' : 'bg-surface-container hover:bg-surface-container-high'} text-white rounded-lg font-label-sm text-label-sm transition-colors flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">shopping_cart</span>
+                                ${supplier.inStock ? 'Request Quote' : 'Pre-order'}
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    });
+    
+    // Show message if no results
+    if (filteredData.fabrics.length === 0) {
+        html = `
+            <div class="text-center py-12">
+                <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">filter_alt_off</span>
+                <p class="font-headline-md text-primary mb-2">No suppliers found</p>
+                <p class="font-body-md text-on-surface-variant">Try adjusting your filter selection</p>
+            </div>
+        `;
+    }
+    
+    // Calculate statistics from filtered data
+    const totalSuppliers = filteredData.fabrics.reduce((sum, cat) => sum + cat.suppliers.length, 0);
+    const inStockSuppliers = filteredData.fabrics.reduce((sum, cat) => sum + cat.suppliers.filter(s => s.inStock).length, 0);
+    const uniqueCountries = new Set();
+    filteredData.fabrics.forEach(cat => {
+        cat.suppliers.forEach(s => uniqueCountries.add(s.country));
+    });
+    
+    const statsHTML = `
+        <section class="bg-gradient-to-r from-secondary/10 to-primary-fixed/10 rounded-xl p-6 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="font-headline-lg text-headline-lg text-primary">${totalSuppliers}</div>
+                    <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">${supplierFilters.country || supplierFilters.state ? 'Filtered' : 'Total'} Suppliers</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-headline-lg text-headline-lg text-secondary">${inStockSuppliers}</div>
+                    <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">In Stock Now</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-headline-lg text-headline-lg text-primary">${filteredData.fabrics.length}</div>
+                    <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Material Types</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-headline-lg text-headline-lg text-secondary">${uniqueCountries.size}</div>
+                    <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">${uniqueCountries.size === 1 ? 'Country' : 'Countries'}</div>
+                </div>
+            </div>
+        </section>
+    `;
+    
+    content.innerHTML = statsHTML + filterHTML + html;
+}
+
+// Show supplier network modal
+function showSupplierNetwork() {
+    const modal = document.getElementById('supplierModal');
+    
+    // Reset filters when opening
+    supplierFilters = {
+        country: '',
+        state: ''
+    };
+    
+    // Render content
+    renderSupplierContent();
+    
+    modal.classList.add('modal-show');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close supplier modal
+function closeSupplierModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    
+    const modal = document.getElementById('supplierModal');
+    modal.classList.remove('modal-show');
+    document.body.style.overflow = 'auto';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recommendations | TrendLoom Fashion Intelligence</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Playfair Display & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#006f66",
+                    "on-tertiary-container": "#848480",
+                    "on-background": "#191c1e",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#0d1c32",
+                    "on-primary-container": "#76849f",
+                    "outline": "#75777e",
+                    "surface-container-low": "#f3f4f6",
+                    "outline-variant": "#c5c6cd",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#0d1c32",
+                    "inverse-surface": "#2e3132",
+                    "inverse-on-surface": "#f0f1f3",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#474744",
+                    "on-secondary-fixed": "#00201d",
+                    "secondary-fixed": "#89f5e7",
+                    "secondary-container": "#86f2e4",
+                    "primary-fixed-dim": "#b9c7e4",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fb",
+                    "surface-dim": "#d9dadc",
+                    "surface-container": "#edeef0",
+                    "surface-container-highest": "#e1e2e4",
+                    "surface-tint": "#515f78",
+                    "tertiary-container": "#1b1c19",
+                    "on-primary-fixed-variant": "#39475f",
+                    "background": "#f8f9fb",
+                    "tertiary-fixed": "#e4e2dd",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e1e2e4",
+                    "primary-fixed": "#d6e3ff",
+                    "surface-container-high": "#e7e8ea",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "inverse-primary": "#b9c7e4",
+                    "on-surface-variant": "#44474d",
+                    "on-secondary-fixed-variant": "#005049",
+                    "tertiary": "#000000",
+                    "on-surface": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#c8c6c2",
+                    "secondary": "#006a61",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#f8f9fb",
+                    "primary": "#000000",
+                    "on-tertiary-fixed": "#1b1c19"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "sidebar-width": "280px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": [
+                            "Playfair Display"
+                    ],
+                    "display-lg": [
+                            "Playfair Display"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Playfair Display"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Playfair Display"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Grain Filter for Premium Paper Feel */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen">
+<!-- Top Navigation (Mobile Only) -->
+<header class="fixed top-0 w-full z-40 backdrop-blur-md bg-surface/80 dark:bg-surface-dim/80 shadow-sm flex justify-between items-center h-20 px-margin-mobile md:hidden">
+<div class="font-headline-md text-headline-md tracking-tighter text-primary dark:text-primary-fixed">
+            TrendLoom
+        </div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed cursor-pointer">bookmarks</span>
+</div>
+</header>
+<div class="flex">
+<!-- Side Navigation (Desktop) -->
+<aside class="bg-primary-container dark:bg-primary-container fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant/20 dark:border-outline/10 shadow-sm flex flex-col py-margin-desktop z-50 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="font-display-lg text-display-lg text-on-primary-fixed italic tracking-tight font-extrabold text-[32px] leading-tight">TrendLoom</span>
+<span class="font-label-sm text-label-sm text-on-primary-container mt-2">Executive Dashboard</span>
+</div>
+<div class="flex-1 overflow-y-auto pb-6">
+<!-- Workspace -->
+<div class="px-6 py-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="explore.html">
+<span class="material-symbols-outlined text-[18px]">travel_explore</span>
+            Explore Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="seasonal.html">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            Seasonal Intelligence
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="regional.html">
+<span class="material-symbols-outlined text-[18px]">public</span>
+            Regional Demand
+        </a>
+</nav>
+<!-- Decision Support -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Decision Support</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="competitor.html">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+            Competitor Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-container/10 hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group active" href="recommendation.html">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+            Recommendations
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="attributes.html">
+<span class="material-symbols-outlined text-[18px]">category</span>
+            Attribute Analyzer
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+            Saved Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Reports &amp; Exports
+        </a>
+</nav>
+<!-- Workspace Management -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace Management</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+            Feedback &amp; Outcomes
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+            Settings
+        </a>
+</nav>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-sidebar-width pt-24 md:pt-0 pb-24 md:pb-0 min-h-screen">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12 space-y-stack-lg">
+<!-- Page Header -->
+<header class="mb-12">
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">Strategic Recommendations</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">AI-driven actionable intelligence for your next collection, based on real-time global market demand signals.</p>
+</header>
+<!-- Section 1: Strategic Pivot Hero -->
+<section class="relative rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(10,25,47,0.04)] border border-outline-variant/20 bg-surface">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-0">
+<div class="md:col-span-7 p-8 md:p-12 flex flex-col justify-center bg-surface relative z-10">
+<span class="inline-block bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm w-max mb-6">High Impact Pivot</span>
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Pivot to Sustainable Knits in EU Market</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-lg">
+                                Predictive modeling shows a 45% surge in demand for lightweight, recycled knitwear across Northern Europe for the upcoming transitional season. Shifting production capacity away from heavy woolens will optimize inventory sell-through.
+                            </p>
+<div class="flex gap-4">
+<button class="bg-secondary text-on-secondary px-6 py-3 rounded font-label-md text-label-md hover:bg-opacity-90 transition-colors">Implement Strategy</button>
+<button class="border border-secondary text-secondary px-6 py-3 rounded font-label-md text-label-md hover:bg-secondary/5 transition-colors">View Data Deep-Dive</button>
+</div>
+</div>
+<div class="md:col-span-5 relative min-h-[300px] md:min-h-full">
+<div class="absolute inset-0 bg-gradient-to-r from-surface to-transparent z-10 hidden md:block"></div>
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A high-fashion editorial photograph of a model wearing a luxurious, sustainable knit sweater in a soft earthy tone. The lighting is soft and natural, emphasizing the texture of the organic yarn. The background is a minimalist, slightly blurred Nordic landscape in cool daylight, creating a premium, modern, light-mode aesthetic indicative of high-end sustainable fashion intelligence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRoDQokByvUbPcoS2T7meqZkSHMq9Jfo3ilMUVMQKThVve8QMSHXQrSiepotVNkMkP_IiIxLqUxjNY2uZJuIKuZHyJlM53G6bpM08BQWsNYE7TKOG2RAa1SozDE2MOl1VLSZAAr-daXbfuVWJyJEE57AnqUHKBaDL-T3Z93EnCsyCRrnJjTbr9jzJXP_4U72ewogMOMhyauzb7ZZ4K7hUF4oBtbfXcdA5FjtJuFuFBukng9fYKIe7Ewg"/>
+</div>
+</div>
+</section>
+<!-- Section 2: Product Opportunities (Bento Grid) -->
+<section class="py-8">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Product Opportunities</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Recommended silhouettes and categories with high confidence scores.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(10,25,47,0.04)] border border-outline-variant/20 overflow-hidden flex flex-col group hover:shadow-lg transition-shadow duration-300">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A detailed flat-lay studio shot of a relaxed, oversized tailored blazer in a muted sage green fabric. The lighting is crisp and even, highlighting the unstructured drape of the garment on a clean, bright white background. The style is premium fashion catalog, clean, minimalist, and perfectly aligned with a light-mode corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK7xz7bjRdGVoD8hnFtzP7ANa0usyUCAdCeYPgmJdFFuqPDi5VH5n-EbODkuvIwJgNsKOnPJ8LJFxjjJ-ehLE3j2yuLbPuqmZMV2Ksjh34pjRtvO0bFkSANakLs5U8LKX9Cx0Mjt9MNMLm_kuQ2_dfo0ger3F0-9AQn92Rc8mHOwibEA4QsoeDtofT5T_Zv2ZfgkwUHdiRK6kiRUs-jSx02oMmO0FUsw89ySqCo-wq7ihCqmhHPZkOmQ"/>
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded shadow-sm border border-outline-variant/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">92%</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2 text-xl">Relaxed Tailoring</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-4">Unstructured blazers and wide-leg trousers show sustained growth in urban centers.</p>
+<a class="mt-auto text-secondary font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                                    Analyze Trend <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(10,25,47,0.04)] border border-outline-variant/20 overflow-hidden flex flex-col group hover:shadow-lg transition-shadow duration-300">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An ethereal, soft-focus editorial image featuring sheer, layered organza fabric in soft blush and cream tones catching bright, natural studio light. The sheer layers overlap to create delicate opacity shifts. The aesthetic is extremely clean, minimalist, high-end luxury fashion, emphasizing the fragility and elegance of sheer textiles in a light-mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNTc8rJ3SydOyS03eVt8wwPSlPATmBYk9LkLydV8daczOBLy2Y9bIBn2KxNaCmdl54JYcfGU-qxaOGMs03FI-AOsjoBpVNskhO_KWIaZTrXMp87U8LCarTKxbFW9MjVdmTQTeA9i0dbOQKTGiSFq6SvuCfk7OeoAI8_9mX_rpmDTuqODZp_fmeGRik0MQekTAlRP6zY6AVyGFUqQnVucelU-1bCbzGWHo7oWAZhYLvyLvi0EWzETgsWA"/>
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded shadow-sm border border-outline-variant/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">88%</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2 text-xl">Sheer Layering</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-4">Translucent fabrics acting as modular layers are trending strongly for eveningwear.</p>
+<a class="mt-auto text-secondary font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                                    Analyze Trend <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(10,25,47,0.04)] border border-outline-variant/20 overflow-hidden flex flex-col group hover:shadow-lg transition-shadow duration-300">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up, highly detailed shot of a modular, utilitarian cargo pocket on a sleek, matte black technical fabric garment. The lighting is sharp and directional, highlighting the crisp geometric lines and high-quality hardware of the pocket against a bright, airy off-white background. The aesthetic communicates premium tech-wear and modern utility design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2s_xBB4bDRk4pk2dxLLlVpk2mxlqrESlGAOOKusa07qR_EkG4eTv0XAEDcF1kHlOITUGj1UBHHwJu-Tjm8tHVNEXcZ4g4A8TyjFst8TFjTP7-GxSPKy8LsmwXe7jYBKS9aB0NJEU0GwnSUbre5wKUegQhZtpmpK-sicij_pf4Bf4CrxTO3ck3CUV9Dbsryl3eC4kmPqd9gfuFVQQuSPKLclKejxib3jEHcPELHHNbhZi65SunJboOfA"/>
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded shadow-sm border border-outline-variant/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">trending_up</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">75%</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2 text-xl">Elevated Utility</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-4">Functional details integrated into luxury fabrics, transitioning from streetwear to high fashion.</p>
+<a class="mt-auto text-secondary font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                                    Analyze Trend <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3 & 4 Grid: Materials & Insights -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter py-8">
+<!-- Materials Suggestion -->
+<section class="lg:col-span-8 bg-surface rounded-xl shadow-[0_4px_20px_rgba(10,25,47,0.04)] border border-outline-variant/20 p-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Material Sourcing Intelligence</h3>
+<div class="space-y-6">
+<!-- Material 1 -->
+<div class="flex items-start gap-4 p-4 rounded-lg hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A macro shot of luxurious recycled cashmere fabric, showing the fine, soft texture and subtle heathered grey tones. The image is brightly lit, emphasizing the high quality and soft hand-feel of the material in a clean, minimalist context suitable for luxury fashion intelligence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6Pz2PFumz2RGRbajM0ijyYktkogZGNd2k6yhTmYy6N-gfkIQbmH5ZsIbFIfR6E2i8G3EDO5Z6ELn4_Ck3f9sPVlDbQaCF9dQuN8K-aky2KmU6cVKVAlXRY1Ogz36HzvQSsxmqIhOw41IjtQAc3JM6cFiF6kRXK5HV0ZHPfBLUNPNIDh424TiYxffhU5typFMTqTEOVep7K8lsbFR645i5CIi0unOq3hTRLYV2_xLo63EkzFQTbcZvBA"/>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-2">
+                                        Recycled Cashmere
+                                        <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] uppercase tracking-wider font-semibold">Priority</span>
+</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1 mb-2">High demand indicator for eco-conscious luxury consumers. Source early to avoid Q3 supply bottlenecks.</p>
+<div class="flex gap-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> Demand +28%
+                                        </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]">attach_money</span> Cost Stable
+                                        </span>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/20"/>
+<!-- Material 2 -->
+<div class="flex items-start gap-4 p-4 rounded-lg hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="A detailed close-up texture shot of raw, organic linen fabric in a warm, natural oatmeal color. The slubby, woven texture is highlighted by directional, soft daylight against a crisp white studio background, communicating rustic luxury and sustainable material intelligence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzKdmtjuJ_7L8RA_Nr81GBGffc3JpMqGf5FXgRv5mwIZsRnUg_LMnmKQ9x7CMbTov-uBLQuHEVjFmTpcdpUw0XQ-eJ9jEsEJ1i3Wfl5DewFi9MWVnuBDy4lRDvL00i0XMVusNxRd8vQEGb_k1jPS2HT13_EVQJ1D5M4f9p1GMmOuh0ltvNSY_BLSn9Il8goBI4_47OlT28_SuGQ6HWadnk-xXQyppLWKAhDUVg5fNFEDyqADSUZrzVEA"/>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-2">
+                                        Organic Linen Blends
+                                    </h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1 mb-2">Emerging preference for trans-seasonal weights. Look for silk-linen blends for premium eveningwear application.</p>
+<div class="flex gap-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> Demand +15%
+                                        </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Actionable Insights -->
+<section class="lg:col-span-4 bg-primary-container text-on-primary-container rounded-xl p-8 relative overflow-hidden">
+<!-- Abstract decorative shape -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-secondary-fixed/10 rounded-full blur-3xl pointer-events-none"></div>
+<h3 class="font-headline-md text-headline-md text-on-primary mb-6 relative z-10">Strategic Quick Wins</h3>
+<ul class="space-y-4 relative z-10">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary-fixed mt-0.5">check_circle</span>
+<p class="font-body-md text-body-md text-sm text-on-primary-container/90"><strong class="text-on-primary font-medium">Increase Earth Tones:</strong> Shift dye lot planning towards muted terracotta and olive for late Q4 releases.</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary-fixed mt-0.5">check_circle</span>
+<p class="font-body-md text-body-md text-sm text-on-primary-container/90"><strong class="text-on-primary font-medium">Reduce Mini Lengths:</strong> Analytics show a sharp decline in mini-skirt search volume across APAC; pivot to midi.</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary-fixed mt-0.5">check_circle</span>
+<p class="font-body-md text-body-md text-sm text-on-primary-container/90"><strong class="text-on-primary font-medium">Highlight Traceability:</strong> Marketing campaigns emphasizing supply chain transparency are seeing 3x engagement.</p>
+</li>
+</ul>
+<button class="w-full mt-8 border border-outline-variant/30 text-on-primary py-3 rounded font-label-md text-label-md hover:bg-on-primary/10 transition-colors relative z-10">
+                            Generate Full Brief
+                        </button>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 w-full md:hidden z-50 rounded-t-xl bg-surface dark:bg-surface-dim shadow-[0_-4px_20px_rgba(10,25,47,0.08)] flex justify-around items-center px-4 pb-safe h-16">
+<a class="flex flex-col items-center justify-center text-secondary font-bold scale-95 active:scale-90 transition-transform active:bg-surface-container-high w-16 h-14 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 active:scale-90 transition-transform active:bg-surface-container-high w-16 h-14 rounded-lg" href="#">
+<span class="material-symbols-outlined">temp_preferences_custom</span>
+<span class="font-label-sm text-label-sm mt-1">Seasonal</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 active:scale-90 transition-transform active:bg-surface-container-high w-16 h-14 rounded-lg" href="#">
+<span class="material-symbols-outlined">public</span>
+<span class="font-label-sm text-label-sm mt-1">Regions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 active:scale-90 transition-transform active:bg-surface-container-high w-16 h-14 rounded-lg" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-sm text-label-sm mt-1">Trends</span>
+</a>
+</nav>
+
+<!-- API Integration Scripts -->
+<script src="js/api.js"></script>
+<script src="js/recommendations.js"></script>
+</body></html>

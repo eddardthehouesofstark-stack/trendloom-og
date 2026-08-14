@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Competitor Trends - TrendLoom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#b9c7e4",
+                      "on-primary-fixed-variant": "#39475f",
+                      "surface-variant": "#e1e2e4",
+                      "surface-dim": "#d9dadc",
+                      "surface-container-highest": "#e1e2e4",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "tertiary-container": "#1b1c19",
+                      "surface-bright": "#f8f9fb",
+                      "on-tertiary-fixed": "#1b1c19",
+                      "inverse-surface": "#2e3132",
+                      "background": "#f8f9fb",
+                      "surface-container-low": "#f3f4f6",
+                      "on-surface-variant": "#44474d",
+                      "primary-container": "#0d1c32",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed-variant": "#005049",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#191c1e",
+                      "on-tertiary-container": "#848480",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c5c6cd",
+                      "on-primary-container": "#76849f",
+                      "tertiary": "#000000",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#d6e3ff",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#515f78",
+                      "on-surface": "#191c1e",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#89f5e7",
+                      "outline": "#75777e",
+                      "secondary-container": "#86f2e4",
+                      "surface-container-high": "#e7e8ea",
+                      "on-secondary-fixed": "#00201d",
+                      "tertiary-fixed-dim": "#c8c6c2",
+                      "surface-container": "#edeef0",
+                      "primary": "#000000",
+                      "primary-fixed-dim": "#b9c7e4",
+                      "on-secondary-container": "#006f66",
+                      "tertiary-fixed": "#e4e2dd",
+                      "inverse-on-surface": "#f0f1f3",
+                      "secondary": "#006a61",
+                      "secondary-fixed-dim": "#6bd8cb",
+                      "surface": "#f8f9fb",
+                      "on-primary-fixed": "#0d1c32",
+                      "on-error": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "sidebar-width": "280px",
+                      "gutter": "24px",
+                      "stack-lg": "32px",
+                      "margin-mobile": "16px",
+                      "stack-md": "16px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .noise-bg {
+            position: relative;
+        }
+        .noise-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            z-index: 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(10, 25, 47, 0.08);
+            box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04);
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex noise-bg">
+<!-- SideNavBar -->
+<aside class="bg-primary-container dark:bg-primary-container fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant/20 dark:border-outline/10 shadow-sm flex flex-col py-margin-desktop z-50 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="font-display-lg text-display-lg text-on-primary-fixed italic tracking-tight font-extrabold text-[32px] leading-tight">TrendLoom</span>
+<span class="font-label-sm text-label-sm text-on-primary-container mt-2">Executive Dashboard</span>
+</div>
+<div class="flex-1 overflow-y-auto pb-6">
+<!-- Workspace -->
+<div class="px-6 py-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="explore.html">
+<span class="material-symbols-outlined text-[18px]">travel_explore</span>
+            Explore Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="seasonal.html">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            Seasonal Intelligence
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="regional.html">
+<span class="material-symbols-outlined text-[18px]">public</span>
+            Regional Demand
+        </a>
+</nav>
+<!-- Decision Support -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Decision Support</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-container/10 hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group active" href="competitor.html">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+            Competitor Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="recommendation.html">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+            Recommendations
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="attributes.html">
+<span class="material-symbols-outlined text-[18px]">category</span>
+            Attribute Analyzer
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+            Saved Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Reports &amp; Exports
+        </a>
+</nav>
+<!-- Workspace Management -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace Management</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+            Feedback &amp; Outcomes
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+            Settings
+        </a>
+</nav>
+</div>
+</aside>
+
+<!-- Main Content Wrapper -->
+<div class="flex-1 lg:ml-sidebar-width flex flex-col min-h-screen relative z-10 pb-20 lg:pb-0">
+<!-- TopAppBar -->
+<header class="fixed lg:static top-0 w-full z-40 bg-surface/80 dark:bg-surface-container-highest/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-margin-mobile lg:px-margin-desktop h-20">
+<div class="flex items-center gap-4 flex-1">
+<span class="lg:hidden font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">TrendLoom</span>
+<div class="hidden lg:flex items-center bg-surface-container-lowest border border-surface-variant rounded-full px-4 py-2 w-96 focus-within:border-secondary transition-colors">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="border-none bg-transparent focus:ring-0 w-full font-body-md text-body-md text-on-surface placeholder:text-outline/70 ml-2" placeholder="Search competitor intel..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="Executive Profile" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-high" data-alt="A professional headshot of a female executive in her late 30s with short dark hair, wearing a tailored navy blazer, positioned against a bright, minimalist modern office background with soft natural lighting and a high-end corporate editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkv-S2OmcBKBT8AunximWMuyTV4-5omVuLD_qCw3hB-Ub36rXJ-RHO40FUPT85FCVvyVaEyFHpeVbEzpe7QNImtX-2HoOc7fztYo9QhnkzWg5OSiINMYxR7tR3M06d03uaS_nC3dSluot01pUdaud7f8aYatFatFm8oQcZGU1z4LOCg6qgTso7Ro33J98dykJVGt0y_aMm_fbbyNdQ_uSic88c8px4MXQ59K7YFoE8LFOz4HrzdKO_3Q"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-margin-mobile lg:p-margin-desktop space-y-stack-lg pt-24 lg:pt-margin-desktop">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h2 class="font-display-lg text-headline-lg-mobile md:text-display-lg text-primary mb-2">Competitor Intelligence</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Real-time market analysis and strategic benchmarking across top fashion vanguards.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-full border border-secondary text-secondary font-label-md text-label-md hover:bg-secondary/5 transition-colors">
+                        Export Report
+                    </button>
+<button class="px-4 py-2 rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary/90 transition-colors shadow-sm">
+                        Add Competitor
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Share of Voice Card (Spans 8 columns) -->
+<div class="md:col-span-8 glass-card rounded-xl p-6 relative overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Market Share of Voice</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-label-sm text-label-sm text-on-surface-variant">Last 30 Days</span>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-4 relative">
+<!-- Chart Bars -->
+<div class="w-1/4 h-[85%] bg-primary flex flex-col justify-between items-center pb-2 rounded-t-lg relative group">
+<span class="font-headline-md text-headline-md text-on-primary pt-4">42%</span>
+<span class="font-label-sm text-label-sm text-on-primary uppercase tracking-wide">TrendLoom</span>
+<div class="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded-DEFAULT font-label-sm text-label-sm whitespace-nowrap z-10">+5% vs Last Mo</div>
+</div>
+<div class="w-1/4 h-[65%] bg-outline-variant flex flex-col justify-between items-center pb-2 rounded-t-lg">
+<span class="font-headline-md text-headline-md text-on-surface pt-4">28%</span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wide">LuxeAura</span>
+</div>
+<div class="w-1/4 h-[45%] bg-surface-container-high flex flex-col justify-between items-center pb-2 rounded-t-lg">
+<span class="font-headline-md text-headline-md text-on-surface pt-4">18%</span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wide">ModeVanguard</span>
+</div>
+<div class="w-1/4 h-[30%] bg-surface-container flex flex-col justify-between items-center pb-2 rounded-t-lg">
+<span class="font-headline-md text-headline-md text-on-surface pt-4">12%</span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wide">SilkRoad</span>
+</div>
+</div>
+</div>
+<!-- Pricing Benchmarking (Spans 4 columns) -->
+<div class="md:col-span-4 glass-card rounded-xl p-6 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Pricing Benchmarking</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Average retail price vs competitor aggregate.</p>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-primary font-bold">TrendLoom</span>
+<span class="text-secondary">$450 Avg</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-on-surface-variant">LuxeAura</span>
+<span class="text-on-surface-variant">$620 Avg</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-outline-variant h-2 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-on-surface-variant">ModeVanguard</span>
+<span class="text-on-surface-variant">$380 Avg</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-outline-variant h-2 rounded-full" style="width: 55%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Rival Collections Gallery (Spans 12 columns) -->
+<div class="md:col-span-12 glass-card rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Rival Drops: Trend Strength</h3>
+<button class="text-secondary font-label-md text-label-md hover:underline flex items-center gap-1">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Drop 1 -->
+<div class="group relative rounded-lg overflow-hidden cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10 pointer-events-none"></div>
+<img alt="LuxeAura Fall Drop" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="A high-fashion editorial photograph featuring an avant-garde oversized trench coat in olive green, modeled on a stark white background with dramatic, angular lighting creating sharp shadows, embodying a modern, utilitarian luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc07IBNJuHvLK8FATa7azQTZpUOZzDIE0wXzpiuWrpBizWHtMFRI3uoPXQoQ0Qfntd-ZnxRbkeA8mGdnP0lzq_Eok8C-zxP5J7ySAd9yzn18bOaIfeirMnOLK4EGza9yNUhFHCXnMXiL1WKh8x9z1vdZaCV2qD4ftxEWz2mSocKrr_AFfO5Fjd73sdu5_xUfKuQEMCmwRlicyXSKZqXCzX5Z3xEVUAVMs0ZJvxsSt16M_tAsBglc-BnA"/>
+<div class="absolute bottom-0 left-0 p-4 z-20 w-full">
+<span class="inline-block px-2 py-1 bg-surface/90 text-primary font-label-sm text-label-sm rounded-full mb-2">LuxeAura</span>
+<h4 class="font-headline-md text-headline-md text-on-primary mb-1">Utilitarian Fall</h4>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface/30 h-1 rounded-full">
+<div class="bg-secondary-fixed h-1 rounded-full" style="width: 88%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-primary">88% Strength</span>
+</div>
+</div>
+</div>
+<!-- Drop 2 -->
+<div class="group relative rounded-lg overflow-hidden cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10 pointer-events-none"></div>
+<img alt="ModeVanguard Knitwear" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="A close-up fashion shot of intricate, sheer knitwear in pastel mint and cream tones, softly draped against a pale grey concrete background. The lighting is soft and ethereal, highlighting the delicate texture and premium minimalist design language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNTi-zpmS50iRBzM_JyagvHAWmC1jDiokkAwVIbBFPDcfjRYhFefcCk_wkVRTj-cevFM4C8SEypZ0Fj1fEcv5_Xkn8XHxupjmuTQk5pW2qVCmc9P7grDyGpsM17bTGuoly9DPDVHaLB0-L5kxovolb5dtVV46HxkbfEMnUNnqDesziN8xYCfikyFrc4gsnqoyusTKwkoIYzhFyXf6SckhB78EaXIaydniiWshMU2ZxkxCwMLD3jxcADA"/>
+<div class="absolute bottom-0 left-0 p-4 z-20 w-full">
+<span class="inline-block px-2 py-1 bg-surface/90 text-primary font-label-sm text-label-sm rounded-full mb-2">ModeVanguard</span>
+<h4 class="font-headline-md text-headline-md text-on-primary mb-1">Ethereal Knits</h4>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface/30 h-1 rounded-full">
+<div class="bg-error-container h-1 rounded-full" style="width: 45%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-primary">45% Strength</span>
+</div>
+</div>
+</div>
+<!-- Drop 3 -->
+<div class="group relative rounded-lg overflow-hidden cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10 pointer-events-none"></div>
+<img alt="SilkRoad Evening" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="A dynamic fashion portrait of a model wearing a tailored metallic silver suit with structured shoulders, posed against a dark, moody studio background with single directional spotlighting, conveying a sleek, futuristic high-end aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC6KOnK6mPrvzc0zJAxdsmu4glErAdwopD5upwr3M-j34FIGIexFc7A-zk3z2CbgBRkj6wiZWXAeHWC_C3I2hICR8mavlNkQIZvEn9-chCeHBzKSj0b3VzC8-ztXQuWLAhwH6T3sVfuFNzbT6OjHUDMGlbzXckFTTtcj5Os9-dk0KYkJ7pkmxBlDf-PAH10kQWPJVONzSwWuW-nAyZ24huWO4BkeX8le1nQePwD4oIyz7RJDgLafQpVA"/>
+<div class="absolute bottom-0 left-0 p-4 z-20 w-full">
+<span class="inline-block px-2 py-1 bg-surface/90 text-primary font-label-sm text-label-sm rounded-full mb-2">SilkRoad</span>
+<h4 class="font-headline-md text-headline-md text-on-primary mb-1">Metallic Evening</h4>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface/30 h-1 rounded-full">
+<div class="bg-secondary-fixed h-1 rounded-full" style="width: 72%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-primary">72% Strength</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Trending Rival Pieces Table (Spans 12 columns) -->
+<div class="md:col-span-12 glass-card rounded-xl p-6">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Trending Rival Pieces</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 text-on-surface-variant font-label-md text-label-md uppercase tracking-wide">
+<th class="pb-3 px-4 font-normal">Piece</th>
+<th class="pb-3 px-4 font-normal">Brand</th>
+<th class="pb-3 px-4 font-normal">Engagement</th>
+<th class="pb-3 px-4 font-normal">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container/30 transition-colors">
+<td class="py-4 px-4 flex items-center gap-3">
+<img alt="Item" class="w-12 h-12 rounded object-cover" data-alt="A small, high-quality thumbnail image of a minimalist structural leather handbag in deep burgundy, set against a pristine white background with sharp, clean studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGtVtgAgyjTkaFElw9nrh5tBOjHkBr_hggbO2Fb3_zrAgziiT65O8AfM8bsimLFu1quDRz8v176SZcBJVuTtXOtyjq-iSRdKpi22s-6ckNRXi7y0u-E-6YCXkSBFmLjlm87gXRxp4H6lIGmqEpJTZ_UTd1kjWUDZ0lxyNiPOOOd03Ig_fYOPkomHyLK58dNJvRy7-mVu50S8TnjAqARjx4wzYdULiHHu8KFpPZuUySqu3RtNhBbFsCqw"/>
+<span class="font-medium">Structural Leather Tote</span>
+</td>
+<td class="py-4 px-4 text-on-surface-variant">LuxeAura</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                            +125%
+                                        </div>
+</td>
+<td class="py-4 px-4">
+<span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/20 rounded-full font-label-sm text-label-sm">Produce</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container/30 transition-colors">
+<td class="py-4 px-4 flex items-center gap-3">
+<img alt="Item" class="w-12 h-12 rounded object-cover" data-alt="A small, high-quality thumbnail image of a chunky, asymmetric wool sweater in charcoal grey, photographed close-up to emphasize the premium knit texture against a soft cream background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5npm96j1yDfwF7y6CcIH1QIKBTet8ahP-yd40xorINzrcOMXBVdSSLO3BjYLSRxR9CYPKd4-N0YJjWD_SKobM1n3yc1FGAVLEnUVv0PI426ksIjk4CYY1AJM0itDrarlcz5kKybcM82PJvlwffSknsNbbDE3YYBQiv1pYXRuBfOySalliHnK56O8M12mQfeP26mb4wxYJwbiHbdTbCyhKx6iAbw_iHxA2voncPKHFDNqs7470pEoxXg"/>
+<span class="font-medium">Asymmetric Wool Knit</span>
+</td>
+<td class="py-4 px-4 text-on-surface-variant">SilkRoad</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">trending_flat</span>
+                                            Stable
+                                        </div>
+</td>
+<td class="py-4 px-4">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant border border-outline-variant/50 rounded-full font-label-sm text-label-sm">Wait</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 pb-safe px-4 z-50 bg-surface dark:bg-surface-container-highest border-t border-outline-variant/20 shadow-[0_-4px_20px_rgba(10,25,47,0.04)] rounded-t-xl font-label-sm text-label-sm-mobile">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+            Home
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">search</span>
+            Explore
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">auto_graph</span>
+            Intelligence
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">map</span>
+            Demand
+        </a>
+<a class="flex flex-col items-center justify-center text-secondary font-bold active:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">compare_arrows</span>
+            Competitors
+        </a>
+</nav>
+</body></html>

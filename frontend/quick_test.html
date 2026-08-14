@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Diagnostic Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+        .test { margin: 10px 0; padding: 10px; background: #2d2d2d; border-left: 3px solid #666; }
+        .success { border-left-color: #4CAF50; }
+        .error { border-left-color: #f44336; }
+        .warning { border-left-color: #ff9800; }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px 0; cursor: pointer; }
+        #result { margin: 20px 0; padding: 15px; background: #252526; white-space: pre-wrap; }
+        input[type="file"] { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Attribute Analyzer Diagnostic</h1>
+    
+    <div id="tests"></div>
+    
+    <h2>📤 Test Image Upload:</h2>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="testUpload()">Upload Test</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        const tests = document.getElementById('tests');
+        const result = document.getElementById('result');
+        
+        function addTest(name, status, message) {
+            const div = document.createElement('div');
+            div.className = `test ${status}`;
+            div.innerHTML = `<strong>${status === 'success' ? '✅' : status === 'error' ? '❌' : '⚠️'} ${name}</strong><br>${message}`;
+            tests.appendChild(div);
+        }
+        
+        // Test 1: Backend reachable
+        fetch('http://localhost:8000/health')
+            .then(r => r.json())
+            .then(d => addTest('Backend Health', 'success', 'Backend is running: ' + JSON.stringify(d)))
+            .catch(e => addTest('Backend Health', 'error', 'Backend not reachable: ' + e.message));
+        
+        // Test 2: CORS test
+        fetch('http://localhost:8000/api/image/analyze', { method: 'POST' })
+            .then(r => {
+                if (r.ok) {
+                    return r.json().then(d => addTest('CORS & API', 'success', 'API responds without CORS issues! Category: ' + d.category));
+                } else {
+                    addTest('CORS & API', 'warning', 'API reachable but returned: ' + r.status);
+                }
+            })
+            .catch(e => addTest('CORS & API', 'error', 'CORS blocked or network error: ' + e.message));
+        
+        // Test 3: Check if frontend can access api.js
+        setTimeout(() => {
+            if (typeof window.TrendLoomAPI !== 'undefined') {
+                addTest('API.js Loaded', 'error', 'api.js is NOT loaded on this page (expected for this test)');
+            } else {
+                addTest('API.js Loading', 'warning', 'api.js not loaded here (this is a standalone test page)');
+            }
+        }, 100);
+        
+        // Test upload function
+        async function testUpload() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                result.innerHTML = '❌ Please select a file first!';
+                return;
+            }
+            
+            result.innerHTML = '⏳ Uploading...';
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                console.log('Uploading file:', file.name, file.type, file.size, 'bytes');
+                
+                const response = await fetch('http://localhost:8000/api/image/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `✅ SUCCESS!\n\nStatus: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.innerHTML = `❌ ERROR ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                result.innerHTML = `❌ FAILED\n\nError: ${error.message}\n\nStack: ${error.stack}`;
+                console.error('Upload error:', error);
+            }
+        }
+        
+        console.log('=== Diagnostic Page Loaded ===');
+        console.log('Backend URL: http://localhost:8000');
+        console.log('Frontend URL: http://localhost:8080');
+    </script>
+</body>
+</html>

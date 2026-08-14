@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WORKING Image Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #fff;
+        }
+        .upload-box {
+            border: 3px dashed #0D9488;
+            padding: 40px;
+            text-align: center;
+            background: #2d2d2d;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .upload-box:hover { background: #3d3d3d; }
+        #preview { max-width: 400px; margin: 20px auto; display: none; }
+        #preview img { width: 100%; border-radius: 8px; }
+        #results {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        .success { color: #10B981; }
+        .error { color: #EF4444; }
+    </style>
+</head>
+<body>
+    <h1>✅ WORKING Image Upload Test</h1>
+    <p>This is a self-contained test with NO external dependencies</p>
+    
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <h2>📤 Click to Upload Image</h2>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+    
+    <div id="preview">
+        <h3>Preview:</h3>
+        <img id="previewImg" />
+    </div>
+    
+    <div id="results">⏳ Waiting for upload...</div>
+    
+    <script>
+        console.log('Page loaded successfully');
+        console.log('Current URL:', window.location.href);
+        console.log('Hostname:', window.location.hostname);
+        
+        const API_URL = `http://${window.location.hostname}:8000/api/image/analyze`;
+        console.log('API URL:', API_URL);
+        
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const results = document.getElementById('results');
+            const preview = document.getElementById('preview');
+            const previewImg = document.getElementById('previewImg');
+            
+            console.log('File selected:', file.name, file.type, file.size, 'bytes');
+            results.innerHTML = '⏳ Uploading...';
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload
+            try {
+                console.log('[1] Creating FormData');
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                console.log('[2] Sending POST to', API_URL);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('[3] Response status:', response.status);
+                console.log('[4] Response headers:');
+                response.headers.forEach((value, key) => {
+                    console.log(`  ${key}: ${value}`);
+                });
+                
+                const data = await response.json();
+                console.log('[5] Response data:', data);
+                
+                if (response.ok) {
+                    results.innerHTML = `<span class="success">✅ SUCCESS!</span>
+
+<strong>Category:</strong> ${data.category}
+<strong>Confidence:</strong> ${(data.confidence * 100).toFixed(1)}%
+<strong>Style:</strong> ${data.style}
+<strong>Material:</strong> ${data.material}
+<strong>Pattern:</strong> ${data.pattern}
+
+<strong>Colors:</strong>
+${data.colors.map(c => `  ${c.name}: ${c.hex} (${c.percentage.toFixed(1)}%)`).join('\n')}
+
+<strong>Attributes:</strong>
+${Object.entries(data.detected_attributes).map(([k, v]) => `  ${k}: ${v}`).join('\n')}
+
+<strong>AI Tags:</strong> ${data.ai_tags.join(', ')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+<strong>Full JSON:</strong>
+${JSON.stringify(data, null, 2)}`;
+                } else {
+                    results.innerHTML = `<span class="error">❌ ERROR ${response.status}</span>\n\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                console.error('[ERROR]', error);
+                results.innerHTML = `<span class="error">❌ FAILED</span>
+
+<strong>Error:</strong> ${error.message}
+
+<strong>Possible causes:</strong>
+1. Backend not running on port 8000
+2. CORS issue (check backend console)
+3. Network error
+
+<strong>Check backend at:</strong> ${API_URL.replace('/api/image/analyze', '/health')}`;
+            }
+        });
+    </script>
+</body>
+</html>

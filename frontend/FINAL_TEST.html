@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FINAL Test - Localhost vs 127.0.0.1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-box {
+            background: #2d2d2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #666;
+        }
+        .success { border-left-color: #10B981; }
+        .error { border-left-color: #EF4444; }
+        button {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f766e; }
+        input[type="file"] { margin: 20px 0; padding: 10px; }
+        pre { background: #1a1a1a; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔧 FINAL Diagnostic Test</h1>
+    <p>Testing both localhost and 127.0.0.1 endpoints</p>
+    
+    <div id="connection-tests"></div>
+    
+    <h2>Upload Test:</h2>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="testUpload('localhost')">Test with localhost:8000</button>
+    <button onclick="testUpload('127.0.0.1')">Test with 127.0.0.1:8000</button>
+    
+    <div id="upload-result"></div>
+    
+    <script>
+        // Test connections on page load
+        window.addEventListener('load', async () => {
+            const testsDiv = document.getElementById('connection-tests');
+            
+            // Test 1: localhost health
+            testsDiv.innerHTML += '<div class="test-box">Testing localhost:8000/health...</div>';
+            try {
+                const r1 = await fetch('http://localhost:8000/health');
+                const d1 = await r1.json();
+                testsDiv.lastChild.className = 'test-box success';
+                testsDiv.lastChild.innerHTML = `✅ localhost:8000/health - SUCCESS<pre>${JSON.stringify(d1, null, 2)}</pre>`;
+            } catch (e) {
+                testsDiv.lastChild.className = 'test-box error';
+                testsDiv.lastChild.innerHTML = `❌ localhost:8000/health - FAILED<br>Error: ${e.message}`;
+            }
+            
+            // Test 2: 127.0.0.1 health
+            testsDiv.innerHTML += '<div class="test-box">Testing 127.0.0.1:8000/health...</div>';
+            try {
+                const r2 = await fetch('http://127.0.0.1:8000/health');
+                const d2 = await r2.json();
+                testsDiv.lastChild.className = 'test-box success';
+                testsDiv.lastChild.innerHTML = `✅ 127.0.0.1:8000/health - SUCCESS<pre>${JSON.stringify(d2, null, 2)}</pre>`;
+            } catch (e) {
+                testsDiv.lastChild.className = 'test-box error';
+                testsDiv.lastChild.innerHTML = `❌ 127.0.0.1:8000/health - FAILED<br>Error: ${e.message}`;
+            }
+            
+            // Test 3: API endpoint (no file)
+            testsDiv.innerHTML += '<div class="test-box">Testing API endpoint...</div>';
+            try {
+                const r3 = await fetch('http://localhost:8000/api/image/analyze', { method: 'POST' });
+                const d3 = await r3.json();
+                testsDiv.lastChild.className = 'test-box success';
+                testsDiv.lastChild.innerHTML = `✅ API endpoint - SUCCESS<br>Category: ${d3.category}, Confidence: ${(d3.confidence * 100).toFixed(1)}%`;
+            } catch (e) {
+                testsDiv.lastChild.className = 'test-box error';
+                testsDiv.lastChild.innerHTML = `❌ API endpoint - FAILED<br>Error: ${e.message}`;
+            }
+        });
+        
+        // Upload test function
+        async function testUpload(host) {
+            const fileInput = document.getElementById('fileInput');
+            const resultDiv = document.getElementById('upload-result');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                resultDiv.innerHTML = '<div class="test-box error">❌ Please select a file first!</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="test-box">⏳ Uploading to ' + host + '...</div>';
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const response = await fetch(`http://${host}:8000/api/image/analyze`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="test-box success">
+                        <h3>✅ SUCCESS with ${host}!</h3>
+                        <p><strong>Category:</strong> ${data.category}</p>
+                        <p><strong>Confidence:</strong> ${(data.confidence * 100).toFixed(1)}%</p>
+                        <p><strong>Style:</strong> ${data.style}</p>
+                        <p><strong>Material:</strong> ${data.material}</p>
+                        <p><strong>Colors:</strong> ${data.colors.map(c => c.name).join(', ')}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="test-box error">❌ ERROR ${response.status}<pre>${JSON.stringify(data, null, 2)}</pre></div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-box error">
+                    <h3>❌ FAILED with ${host}</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>This could be:</p>
+                    <ul>
+                        <li>CORS blocking (check browser console)</li>
+                        <li>Firewall/antivirus blocking</li>
+                        <li>Backend not responding</li>
+                    </ul>
+                </div>`;
+                console.error('Upload error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

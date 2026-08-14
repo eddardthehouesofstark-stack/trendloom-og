@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Regional Demand - TrendLoom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+"colors": {
+"background": "#f8f9fb",
+"surface-container-lowest": "#ffffff",
+"on-surface-variant": "#44474d",
+"surface-container-highest": "#e1e2e4",
+"surface-container-high": "#e7e8ea",
+"primary-fixed": "#d6e3ff",
+"tertiary": "#000000",
+"on-primary-fixed": "#0d1c32",
+"surface-tint": "#515f78",
+"secondary-fixed-dim": "#6bd8cb",
+"error": "#ba1a1a",
+"error-container": "#ffdad6",
+"on-secondary": "#ffffff",
+"surface-container-low": "#f3f4f6",
+"on-secondary-container": "#006f66",
+"on-tertiary": "#ffffff",
+"on-secondary-fixed-variant": "#005049",
+"secondary-fixed": "#89f5e7",
+"surface-container": "#edeef0",
+"on-error-container": "#93000a",
+"surface": "#f8f9fb",
+"on-primary": "#ffffff",
+"on-background": "#191c1e",
+"on-secondary-fixed": "#00201d",
+"on-error": "#ffffff",
+"secondary": "#006a61",
+"primary": "#000000",
+"tertiary-container": "#1b1c19",
+"on-primary-container": "#76849f",
+"secondary-container": "#86f2e4",
+"on-tertiary-fixed": "#1b1c19",
+"inverse-on-surface": "#f0f1f3",
+"on-tertiary-fixed-variant": "#474744",
+"inverse-primary": "#b9c7e4",
+"on-primary-fixed-variant": "#39475f",
+"primary-fixed-dim": "#b9c7e4",
+"inverse-surface": "#2e3132",
+"on-surface": "#191c1e",
+"on-tertiary-container": "#848480",
+"outline-variant": "#c5c6cd",
+"surface-dim": "#d9dadc",
+"outline": "#75777e",
+"tertiary-fixed": "#e4e2dd",
+"surface-bright": "#f8f9fb",
+"surface-variant": "#e1e2e4",
+"tertiary-fixed-dim": "#c8c6c2",
+"primary-container": "#0d1c32"
+},
+"borderRadius": {
+"DEFAULT": "0.25rem",
+"lg": "0.5rem",
+"xl": "0.75rem",
+"full": "9999px"
+},
+"spacing": {
+"stack-lg": "32px",
+"stack-sm": "8px",
+"stack-md": "16px",
+"sidebar-width": "280px",
+"margin-mobile": "16px",
+"gutter": "24px",
+"margin-desktop": "40px"
+},
+"fontFamily": {
+"label-md": ["Inter"],
+"body-lg": ["Inter"],
+"headline-md": ["Playfair Display"],
+"label-sm": ["Inter"],
+"headline-lg": ["Playfair Display"],
+"body-md": ["Inter"],
+"headline-lg-mobile": ["Playfair Display"],
+"display-lg": ["Playfair Display"]
+},
+"fontSize": {
+"label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+"body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+"headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+"label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+"headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+"body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+"headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+"display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #F9F7F2;
+color: #191c1e;
+}
+.grain-overlay {
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+pointer-events: none;
+z-index: 9999;
+opacity: 0.05;
+background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(10, 25, 47, 0.08);
+box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04);
+}
+@keyframes fadeIn {
+from {
+opacity: 0.7;
+transform: translateY(5px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+main {
+animation: fadeIn 0.5s ease-in-out;
+}
+</style>
+</head>
+<body class="font-body-md antialiased overflow-x-hidden min-h-screen">
+<div class="grain-overlay"></div>
+<!-- TopAppBar -->
+<header class="flex md:hidden justify-between items-center w-full px-margin-mobile py-stack-sm bg-surface/80 backdrop-blur-md dark:bg-surface-dim/80 docked full-width top-0 z-40 border-b border-outline-variant/20 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed">TrendLoom</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">search</span>
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</header>
+
+<!-- SideNavBar -->
+<aside class="bg-primary-container dark:bg-primary-container fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant/20 dark:border-outline/10 shadow-sm flex flex-col py-margin-desktop z-50 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="font-display-lg text-display-lg text-on-primary-fixed italic tracking-tight font-extrabold text-[32px] leading-tight">TrendLoom</span>
+<span class="font-label-sm text-label-sm text-on-primary-container mt-2">Executive Dashboard</span>
+</div>
+<div class="flex-1 overflow-y-auto pb-6">
+<!-- Workspace -->
+<div class="px-6 py-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="explore.html">
+<span class="material-symbols-outlined text-[18px]">travel_explore</span>
+            Explore Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="seasonal.html">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            Seasonal Intelligence
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-container/10 hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group active" href="regional.html">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">public</span>
+            Regional Demand
+        </a>
+</nav>
+<!-- Decision Support -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Decision Support</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="competitor.html">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+            Competitor Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="recommendation.html">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+            Recommendations
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="attributes.html">
+<span class="material-symbols-outlined text-[18px]">category</span>
+            Attribute Analyzer
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+            Saved Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Reports &amp; Exports
+        </a>
+</nav>
+<!-- Workspace Management -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace Management</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+            Feedback &amp; Outcomes
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+            Settings
+        </a>
+</nav>
+</div>
+</aside>
+
+<!-- Main Content -->
+<main class="md:ml-[280px] pt-4 md:pt-0 pb-24 md:pb-12 px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 mt-8">
+<div>
+<p class="font-label-md text-secondary tracking-widest uppercase mb-2">Market Signals</p>
+<h1 class="font-display-lg text-display-lg text-primary">Regional Demand</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<select id="country-selector" class="appearance-none bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-label-md text-label-md py-3 pl-4 pr-10 rounded-full focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer min-w-[140px]">
+<option value="india" selected>India</option>
+<option value="usa">United States</option>
+<option value="uk">United Kingdom</option>
+<option value="france">France</option>
+<option value="germany">Germany</option>
+<option value="italy">Italy</option>
+<option value="spain">Spain</option>
+<option value="japan">Japan</option>
+<option value="china">China</option>
+<option value="australia">Australia</option>
+<option value="canada">Canada</option>
+<option value="brazil">Brazil</option>
+<option value="uae">UAE</option>
+<option value="singapore">Singapore</option>
+<option value="southkorea">South Korea</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+<div class="relative">
+<select id="state-selector" class="appearance-none bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-label-md text-label-md py-3 pl-4 pr-10 rounded-full focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer min-w-[160px]">
+<!-- States will be populated by JavaScript -->
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+</div>
+</div>
+
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Hero Trend -->
+<div class="col-span-1 md:col-span-8 glass-card rounded-2xl overflow-hidden relative min-h-[400px] flex flex-col justify-end p-8">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover object-center" alt="High-end editorial fashion photography for a luxury intelligence dashboard featuring diverse models in global styles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt3jgBuFHkWhSsBnMBPx6SlJ2b3lVtZ3URJUZrSRLKN9H1c5bf5YSDmy6E7UvxftQxbNDKaNmTuwg9HZE-QCKoU3gbfg-44Q5a1G70oHKnOUaOO_ulljmnIjvq66DFi8cPwasCxlUAWk28XmS6mkPEDn_j7NN9xq7agui5fHAoSYiBkzkNJCCD2cgEqPo7rUlJTsbmgNu9W-FA7Uuj2PMC1DpUVOiJ3hB7n7CGZQMa-D4ZWS_WK7KyOA">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/90 via-[#0A192F]/40 to-transparent"></div>
+</div>
+<div class="relative z-10 text-white max-w-2xl">
+<div class="flex gap-2 mb-4">
+<span class="bg-secondary/80 backdrop-blur text-white px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider">Trending</span>
+<span class="bg-white/20 backdrop-blur text-white px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider">Maharashtra</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Mumbai: High Demand for Sustainable Linens</h2>
+<p class="font-body-lg text-body-lg text-white/80 line-clamp-2">A surge in demand for eco-conscious luxury textiles, reimagined with sharp, architectural tailoring for the contemporary urban consumer in Mumbai.</p>
+</div>
+</div>
+
+<!-- Key Metrics -->
+<div class="col-span-1 md:col-span-4 flex flex-col gap-6">
+<div class="glass-card rounded-2xl p-6 flex flex-col justify-between h-full">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Growth Velocity (Mumbai)</p>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="font-headline-lg text-headline-lg text-primary">+48%</span>
+<span class="material-symbols-outlined text-secondary text-sm">trending_up</span>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3">Top Categories</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container border border-outline-variant/20 px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface">Eco-Silk</span>
+<span class="bg-surface-container border border-outline-variant/20 px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface">Tech-Fabric</span>
+<span class="bg-surface-container border border-outline-variant/20 px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface">Heritage Denim</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Expanded Model Gallery -->
+<div class="col-span-1 md:col-span-12 mt-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Localized Design Trends</h3>
+<a class="text-secondary font-label-md text-label-md hover:underline flex items-center gap-1" href="#">
+View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+<!-- Item 1 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Bandra Streetstyle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY5lFqQsyI2twtpgQ1nW0r2NNkp8iFN9wkv2GxK5hMBe4ynhU0kU7F27_k_t05ksuS83VZ_c-YEUeJxGqyShDYaHyRTd0IS8w-bOB89IlYCAC-_hN-I87O9y0qoWu396QF-75JrhWtZazkwo-UnNBhUo3BjvEbcnHR5TpfjmM86-k6S4eL-OfbeL3He-YMwJBXa_fxIiE3Ljx2cDwO2VdzKrCoqOxpeYmORrW4QGusZy1UWKLa20JLMQ">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Bandra Streetstyle</h4>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Parisian Chic" class="w-full h-full object-cover object-left group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2ByoytSFzT4aDvvuK6ttPRikyKa8DhQxbQTzrnCf7JJodUlHVprh2LQ-QDiMwtAnoYZG-buIHk6hpf73ANvZSxV4eUV-8axwZhLb-C3GAmIgT5jeObpeaWIwwNwpazcVsmGDzCsjs74jaPDptuabiPwk-gqOl-0wKyh0HYOu705TGN9jaSz27gBOl_MUoPsoTeMl8mLj0Z5qttrns1pYUAi8wk8-1lElLOxj_K3LFvRB_OpGzji_eqA">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Parisian Chic</h4>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Dubai Gold Label" class="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUJqvcjWuTXDBQo3pLXSROUMIStjGhYmtwr_KHb4gI7qcO8ysYXjg0YqO3WBgkHoL6gIHwh3a7djJXSoqzV8VMVB0R4xR-7Pohd04l_88xg8r8QhWnYiRrjO8p34Iadjhg4w-jOsvYYPxmfw2h7RYL2BLJrhax3ecbRiZK1bRZCXILZdWXMQ92xY9g_J2PPUb8OTdam-t9-sWzGfWAc3pMcPO8-Dc8-48i50kTb9HTOSoKb7u2_Xtqhg">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Dubai Gold Label</h4>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Tokyo Minimalist" class="w-full h-full object-cover object-bottom group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXljxeiwLJ0XKH77tR74Q5f3UufAmNiHstdm5Jp1FCyca4ZDF2MrcFSxrLvQK30LZ7YdlhbSYzTFnkwF4XwEePUceT5UlqTz_z79i0-DDk1QF2ilZtRVxZ4B5xtg6vVeZw1Oew-EFrdNH1M-vKCjmkyDw-5a94F38yhh9CMbAZ5E0pl7SEmon2CBRm1NdwmcEhacRDtT6UyTFYZkf1H1v0Zk2LQdpgzUULSW5y0jVeA9IfY9UnN28DYw">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Tokyo Minimalist</h4>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Colaba Fusion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1uzT0FmJixN9nM33CI8_KIOOhPGXHa76H0iQuGEcJqYvnMy3CGmnA3vNriT8zLoNKDxmr2a5BAmeN6UeLF653sOPDEGFD-EnJ9hheGaWPi19Ee4pk825G-vKQlVpLGcKg1i8H6xA_nClnO9YJ7QswWjGK481zk5J5C-fjiK_8iphIj3lGh83RqxJ5XnNZ0olvpwn6OV6w79KiSdwrWCUGGGUgEXIEOlcm_aJWShV8OUVuYjhqeaV4SQ">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Colaba Fusion</h4>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Lagos Vibrance" class="w-full h-full object-cover object-right-bottom group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFm8xw2PTzxFPvNNDkfPoKenNUXl5G7EgZlyhppyysydlMalCTscSR9YPALvR-A4mUCSvMv4prG6eHh-K0xYu9_rM-1uAkaWdvI1la3B_t19tXLbg7s8m5l8o4EuvgXiTw02vvDYqXqRY_IepWR-H2PLqGIw3C17EJGzaSnWIu_5pgQa1nFicusKQHtxYvNkw0o_BDWiHIlR6XqPDlDECN9C_Jv1buheVu9SypBdsMs_YdHZ-b6KqD5A">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Lagos Vibrance</h4>
+</div>
+</div>
+<!-- Item 7 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Soho Indie" class="w-full h-full object-cover object-left-bottom group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7seABrlU17U_nmxS0WSHR2QWgicyV4IzF3Ub_lQlh-jRO0UL154HrIdW5xuU8AEA7_D1Yf4K6lg-h2EKkhNUTqoTQs7QWf-MHwQkky7OufEOcN-B9iNRpr1NRcexR6wqYI8T7p5L_Usz7Mh9pkEg-I_N3KfJXiEbdJYRJNQwSCp06VIZboXvHFKjJihLNDeER7CcyTOFamfa1vXiIsUgpvooi7pT04seK5cKn10sjAlDQsZGH0pR6TQ">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Soho Indie</h4>
+</div>
+</div>
+<!-- Item 8 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Pune Tech-Wear" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVNq69sfgol8GWGhpdtFGiJ9H73CmEQceUR0csw4-_VDnTTHuVaUgKqmL52mYeZ0849PMq13pl-bMs6S15UcvR3T9Es9ORwGX30ay_yvb4TY0r7cglX0bLTx-GtN3U_OrqYMr8SMwSVSewMVOGAYgaEUOpsDstdx5LCYSGUFPeYIB9mqzR1cl9DQFvXiWwDJeRZ3K7TkW5hJGYft9d90FzzJMkDqJzRccT05oOT9SBlbbM_qLUlWc31w">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Pune Tech-Wear</h4>
+</div>
+</div>
+<!-- Item 9 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Juhu Resort" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIuSIT7BPB9gVZwSMJoGJGQlaZq4joemfh_pgZ8-8KgimMiqLvpNNBHhNsNS-ikZXJNUmwEjxEQHs6d_mKKhssxUSR4MXhgvXVIbUluompPy1Ctk54PjAr3O3Fdcdi62S31drM4fMEDCQCha5A3LYqR0F5ABlRRTM1kjDDFbSTSRm5Se2_FsZfmcdxBg2ORMrHQ5v55IWj9gQc7fKQrHTnxJ79klCinw3OhwWd5KbmQ31n9Q8uwSZXMw">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Juhu Resort</h4>
+</div>
+</div>
+<!-- Item 10 -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 group cursor-pointer hover:shadow-lg transition-all duration-300">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-surface-container">
+<img alt="Khar Heritage" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOXjNsb7vgROZxEW4rgS2FUx_YoQZk30HuBZfuY7eth2nZMAPzCNmUbG_3N_XlA_MmbdVxv5kbjOc_eN1Tg5hkP27QlfE9pDT_eJIdCkZ6UzUBk7eVOAw1TAzbU0SmwMJUToWbHCk0dwYmoN_ZGLkKBHYI0N9Rg173SCZr6Il9Wg57bHF4ClOHLmYUeoDmz4SrZkoxj_fAA7VAPQAImbOxbGRr1fXV_g1cKdZqci6rrmkp8AJ5ndyXNQ">
+</div>
+<div class="flex justify-between items-center px-1">
+<h4 class="font-label-md text-label-md text-primary group-hover:text-secondary transition-colors">Khar Heritage</h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- BottomNavBar (Mobile) -->
+<nav class="flex md:hidden justify-around items-center h-16 px-4 pb-safe bg-surface-container-highest dark:bg-inverse-surface fixed bottom-0 left-0 w-full z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(10,25,47,0.04)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-16 h-14 rounded-xl" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary bg-secondary-container/30 rounded-full py-1 px-4 w-auto h-14 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-sm text-label-sm mt-1">Trends</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-16 h-14 rounded-xl" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-sm text-label-sm mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-16 h-14 rounded-xl" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-sm text-label-sm mt-1">Alerts</span>
+</a>
+</nav>
+<!-- API Integration Scripts -->
+<script src="js/api.js"></script>
+<script src="js/explore.js"></script>
+
+<!-- Country-State Dynamic Selector Script -->
+<script>
+// Comprehensive Country-State/Province Data
+const countryStateData = {
+    india: {
+        name: "India",
+        states: [
+            "All States", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", 
+            "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", 
+            "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", 
+            "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", 
+            "Uttar Pradesh", "Uttarakhand", "West Bengal", 
+            "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", 
+            "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+        ]
+    },
+    usa: {
+        name: "United States",
+        states: [
+            "All States", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
+            "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", 
+            "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", 
+            "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
+            "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", 
+            "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", 
+            "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", 
+            "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ]
+    },
+    uk: {
+        name: "United Kingdom",
+        states: [
+            "All Regions", "England", "Scotland", "Wales", "Northern Ireland",
+            "Greater London", "South East England", "South West England", "West Midlands", 
+            "North West England", "North East England", "Yorkshire and the Humber", 
+            "East Midlands", "East of England"
+        ]
+    },
+    france: {
+        name: "France",
+        states: [
+            "All Regions", "Île-de-France", "Provence-Alpes-Côte d'Azur", "Auvergne-Rhône-Alpes", 
+            "Nouvelle-Aquitaine", "Occitanie", "Hauts-de-France", "Brittany", "Grand Est", 
+            "Pays de la Loire", "Normandy", "Bourgogne-Franche-Comté", "Centre-Val de Loire", 
+            "Corsica"
+        ]
+    },
+    germany: {
+        name: "Germany",
+        states: [
+            "All States", "Baden-Württemberg", "Bavaria", "Berlin", "Brandenburg", "Bremen", 
+            "Hamburg", "Hesse", "Lower Saxony", "Mecklenburg-Vorpommern", "North Rhine-Westphalia", 
+            "Rhineland-Palatinate", "Saarland", "Saxony", "Saxony-Anhalt", "Schleswig-Holstein", 
+            "Thuringia"
+        ]
+    },
+    italy: {
+        name: "Italy",
+        states: [
+            "All Regions", "Lombardy", "Lazio", "Campania", "Sicily", "Veneto", "Piedmont", 
+            "Emilia-Romagna", "Apulia", "Tuscany", "Calabria", "Sardinia", "Liguria", 
+            "Marche", "Abruzzo", "Friuli-Venezia Giulia", "Trentino-Alto Adige", "Umbria", 
+            "Basilicata", "Molise", "Valle d'Aosta"
+        ]
+    },
+    spain: {
+        name: "Spain",
+        states: [
+            "All Regions", "Andalusia", "Catalonia", "Madrid", "Valencia", "Galicia", 
+            "Castile and León", "Basque Country", "Canary Islands", "Castilla-La Mancha", 
+            "Murcia", "Aragon", "Balearic Islands", "Extremadura", "Asturias", "Navarre", 
+            "Cantabria", "La Rioja"
+        ]
+    },
+    japan: {
+        name: "Japan",
+        states: [
+            "All Prefectures", "Tokyo", "Osaka", "Kyoto", "Hokkaido", "Kanagawa", "Aichi", 
+            "Fukuoka", "Saitama", "Chiba", "Hyogo", "Hiroshima", "Shizuoka", "Miyagi", 
+            "Niigata", "Nagano", "Gifu", "Fukushima", "Okinawa", "Ibaraki", "Tochigi", 
+            "Gunma", "Mie", "Nara", "Kumamoto", "Kagoshima", "Okayama", "Shiga", "Nagasaki"
+        ]
+    },
+    china: {
+        name: "China",
+        states: [
+            "All Provinces", "Beijing", "Shanghai", "Guangdong", "Zhejiang", "Jiangsu", 
+            "Shandong", "Henan", "Sichuan", "Hubei", "Hunan", "Fujian", "Anhui", "Hebei", 
+            "Shaanxi", "Liaoning", "Jiangxi", "Yunnan", "Guangxi", "Shanxi", "Guizhou", 
+            "Chongqing", "Tianjin", "Jilin", "Gansu", "Inner Mongolia", "Heilongjiang", 
+            "Xinjiang", "Tibet", "Qinghai", "Ningxia", "Hainan"
+        ]
+    },
+    australia: {
+        name: "Australia",
+        states: [
+            "All States & Territories", "New South Wales", "Victoria", "Queensland", 
+            "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", 
+            "Northern Territory"
+        ]
+    },
+    canada: {
+        name: "Canada",
+        states: [
+            "All Provinces & Territories", "Ontario", "Quebec", "British Columbia", "Alberta", 
+            "Manitoba", "Saskatchewan", "Nova Scotia", "New Brunswick", 
+            "Newfoundland and Labrador", "Prince Edward Island", "Northwest Territories", 
+            "Yukon", "Nunavut"
+        ]
+    },
+    brazil: {
+        name: "Brazil",
+        states: [
+            "All States", "São Paulo", "Rio de Janeiro", "Minas Gerais", "Bahia", "Paraná", 
+            "Rio Grande do Sul", "Pernambuco", "Ceará", "Pará", "Santa Catarina", "Goiás", 
+            "Maranhão", "Espírito Santo", "Paraíba", "Amazonas", "Mato Grosso", 
+            "Rio Grande do Norte", "Alagoas", "Piauí", "Distrito Federal", "Mato Grosso do Sul", 
+            "Sergipe", "Rondônia", "Tocantins", "Acre", "Amapá", "Roraima"
+        ]
+    },
+    uae: {
+        name: "UAE",
+        states: [
+            "All Emirates", "Abu Dhabi", "Dubai", "Sharjah", "Ajman", "Umm Al Quwain", 
+            "Ras Al Khaimah", "Fujairah"
+        ]
+    },
+    singapore: {
+        name: "Singapore",
+        states: [
+            "All Regions", "Central Region", "East Region", "North Region", "North-East Region", 
+            "West Region"
+        ]
+    },
+    southkorea: {
+        name: "South Korea",
+        states: [
+            "All Provinces", "Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", 
+            "Ulsan", "Sejong", "Gyeonggi", "Gangwon", "North Chungcheong", "South Chungcheong", 
+            "North Jeolla", "South Jeolla", "North Gyeongsang", "South Gyeongsang", "Jeju"
+        ]
+    }
+};
+
+// Get DOM elements
+const countrySelector = document.getElementById('country-selector');
+const stateSelector = document.getElementById('state-selector');
+
+// Function to populate state selector based on selected country
+function populateStates(countryCode) {
+    const countryData = countryStateData[countryCode];
+    
+    if (!countryData) {
+        stateSelector.innerHTML = '<option>Select Country First</option>';
+        return;
+    }
+    
+    // Clear existing options
+    stateSelector.innerHTML = '';
+    
+    // Add states/provinces for selected country
+    countryData.states.forEach((state, index) => {
+        const option = document.createElement('option');
+        option.value = state.toLowerCase().replace(/\s+/g, '-');
+        option.textContent = state;
+        
+        // Select first option by default
+        if (index === 0) {
+            option.selected = true;
+        }
+        
+        stateSelector.appendChild(option);
+    });
+    
+    // Update page content based on selection
+    updateRegionalContent(countryCode, countryData.states[0]);
+}
+
+// Function to update page content based on selected country/state
+function updateRegionalContent(countryCode, stateName) {
+    console.log(`Selected: ${countryCode} - ${stateName}`);
+    
+    // Regional data with metrics, categories, and trend names
+    const regionalData = {
+        india: {
+            hero: {
+                title: "Mumbai: High Demand for Sustainable Linens",
+                description: "A surge in demand for eco-conscious luxury textiles, reimagined with sharp, architectural tailoring for the contemporary urban consumer in Mumbai.",
+                tag: "Maharashtra"
+            },
+            growth: "+48%",
+            location: "Mumbai",
+            categories: ["Eco-Silk", "Tech-Fabric", "Heritage Denim"],
+            trendNames: [
+                "Bandra Streetstyle", "Mumbai Fusion", "Colaba Heritage", "Juhu Resort", 
+                "Khar Ethnic", "Powai Tech-Wear", "Dadar Traditional", "Andheri Casual",
+                "Worli Modern", "Fort Colonial"
+            ]
+        },
+        usa: {
+            hero: {
+                title: "New York: Minimalist Urban Fashion Surge",
+                description: "Clean lines and sustainable materials dominate as New York embraces quiet luxury and effortless sophistication in everyday wear.",
+                tag: "New York"
+            },
+            growth: "+52%",
+            location: "New York",
+            categories: ["Minimalist", "Athleisure", "Smart Casual"],
+            trendNames: [
+                "Soho Indie", "Brooklyn Street", "Manhattan Elite", "Williamsburg Vintage",
+                "Upper East Prep", "Greenwich Chic", "Tribeca Minimal", "Chelsea Modern",
+                "Harlem Vibrant", "Queens Fusion"
+            ]
+        },
+        uk: {
+            hero: {
+                title: "London: Heritage Tweed Revival",
+                description: "Traditional British fabrics get a modern makeover with contemporary cuts and sustainable production methods gaining traction in London.",
+                tag: "England"
+            },
+            growth: "+38%",
+            location: "London",
+            categories: ["Heritage Tweed", "Tailored", "British Classic"],
+            trendNames: [
+                "Notting Hill Chic", "Camden Street", "Mayfair Luxury", "Shoreditch Edge",
+                "Kensington Elegance", "Hackney Urban", "Westminster Classic", "Chelsea Garden",
+                "Soho Bohemian", "Brick Lane Vintage"
+            ]
+        },
+        france: {
+            hero: {
+                title: "Paris: Timeless Elegance Redefined",
+                description: "Parisian chic evolves with eco-conscious materials while maintaining the sophisticated, effortless style the city is known for.",
+                tag: "Île-de-France"
+            },
+            growth: "+44%",
+            location: "Paris",
+            categories: ["Parisian Chic", "Haute Couture", "Effortless"],
+            trendNames: [
+                "Parisian Chic", "Marais Vintage", "Champs-Élysées Luxury", "Montmartre Artist",
+                "Saint-Germain Classic", "Le Marais Street", "Bastille Modern", "Latin Quarter Boho",
+                "Pigalle Edge", "Canal Saint-Martin"
+            ]
+        },
+        germany: {
+            hero: {
+                title: "Berlin: Tech-Fabric Innovation Hub",
+                description: "Berlin leads in sustainable tech-fabrics and experimental design, blending functionality with avant-garde aesthetics.",
+                tag: "Berlin"
+            },
+            growth: "+41%",
+            location: "Berlin",
+            categories: ["Tech-Fabric", "Avant-Garde", "Sustainable"],
+            trendNames: [
+                "Berlin Minimal", "Kreuzberg Alternative", "Mitte Modern", "Prenzlauer Vintage",
+                "Friedrichshain Edge", "Charlottenburg Elegant", "Neukölln Street", "Schöneberg Retro",
+                "Wedding Urban", "Tempelhof Industrial"
+            ]
+        },
+        italy: {
+            hero: {
+                title: "Milan: Luxury Sustainable Fashion",
+                description: "Italian craftsmanship meets sustainability as Milan's fashion houses embrace eco-friendly luxury materials and circular design.",
+                tag: "Lombardy"
+            },
+            growth: "+46%",
+            location: "Milan",
+            categories: ["Italian Luxury", "Sustainable Silk", "Craftsmanship"],
+            trendNames: [
+                "Milanese Elegance", "Brera Artistic", "Quadrilatero Luxury", "Navigli Bohemian",
+                "Corso Como Modern", "Porta Romana Classic", "Isola Trendy", "Duomo Heritage",
+                "Sempione Park Casual", "Tortona Design"
+            ]
+        },
+        spain: {
+            hero: {
+                title: "Barcelona: Mediterranean Bohemian Style",
+                description: "Vibrant colors and flowing fabrics define Barcelona's unique blend of traditional and contemporary Mediterranean fashion.",
+                tag: "Catalonia"
+            },
+            growth: "+39%",
+            location: "Barcelona",
+            categories: ["Mediterranean", "Bohemian", "Colorful"],
+            trendNames: [
+                "Barcelona Beach", "Gothic Quarter Vintage", "Eixample Modern", "Gràcia Bohemian",
+                "Born Artistic", "Barceloneta Coastal", "Raval Street", "Sant Antoni Trendy",
+                "Poblenou Industrial", "Diagonal Luxury"
+            ]
+        },
+        japan: {
+            hero: {
+                title: "Tokyo: Minimalist Zen Aesthetics",
+                description: "Japanese minimalism continues to influence global fashion with clean silhouettes, technical fabrics, and attention to detail.",
+                tag: "Tokyo"
+            },
+            growth: "+55%",
+            location: "Tokyo",
+            categories: ["Minimalist", "Tech-Wear", "Zen Aesthetic"],
+            trendNames: [
+                "Tokyo Minimalist", "Harajuku Street", "Shibuya Urban", "Omotesando Luxury",
+                "Ginza Elegance", "Shinjuku Modern", "Aoyama Sophisticated", "Akihabara Tech",
+                "Roppongi Fusion", "Daikanyama Vintage"
+            ]
+        },
+        china: {
+            hero: {
+                title: "Shanghai: Modern Fusion Fashion",
+                description: "East meets West in Shanghai's dynamic fashion scene, blending traditional Chinese elements with contemporary global trends.",
+                tag: "Shanghai"
+            },
+            growth: "+58%",
+            location: "Shanghai",
+            categories: ["East-West Fusion", "Modern Silk", "Traditional-Modern"],
+            trendNames: [
+                "Shanghai Fusion", "Bund Luxury", "French Concession Vintage", "Xintiandi Modern",
+                "Jing'an Elegant", "Pudong Contemporary", "Huangpu Heritage", "Hongkou Street",
+                "Lujiazui Elite", "Tianzifang Artistic"
+            ]
+        },
+        australia: {
+            hero: {
+                title: "Sydney: Coastal Casual Luxury",
+                description: "Relaxed yet refined, Sydney's fashion embraces breathable fabrics and effortless style perfect for coastal living.",
+                tag: "New South Wales"
+            },
+            growth: "+36%",
+            location: "Sydney",
+            categories: ["Coastal Casual", "Beach-Luxe", "Relaxed"],
+            trendNames: [
+                "Bondi Beach Style", "Surry Hills Urban", "Paddington Chic", "Newtown Street",
+                "Manly Coastal", "Darlinghurst Edge", "Circular Quay Luxury", "Glebe Vintage",
+                "Cronulla Surf", "Redfern Modern"
+            ]
+        },
+        canada: {
+            hero: {
+                title: "Toronto: Urban Outdoor Fusion",
+                description: "Functional fashion meets style as Toronto blends outdoor performance wear with urban sophistication.",
+                tag: "Ontario"
+            },
+            growth: "+42%",
+            location: "Toronto",
+            categories: ["Urban-Outdoor", "Functional", "Layered"],
+            trendNames: [
+                "Toronto Urban", "Queen West Street", "Yorkville Luxury", "Kensington Vintage",
+                "Distillery Modern", "Liberty Village Casual", "Harbourfront Contemporary", "Ossington Trendy",
+                "Roncesvalles Classic", "Leslieville Boho"
+            ]
+        },
+        brazil: {
+            hero: {
+                title: "São Paulo: Vibrant Street Style",
+                description: "Bold colors, tropical prints, and sustainable local fabrics define São Paulo's energetic and diverse fashion landscape.",
+                tag: "São Paulo"
+            },
+            growth: "+51%",
+            location: "São Paulo",
+            categories: ["Tropical Prints", "Bold Colors", "Street Style"],
+            trendNames: [
+                "Paulista Avenue Style", "Vila Madalena Artistic", "Jardins Luxury", "Pinheiros Trendy",
+                "Itaim Bibi Modern", "Higienópolis Classic", "Liberdade Fusion", "Bela Vista Urban",
+                "Moema Elegant", "Centro Histórico Vintage"
+            ]
+        },
+        uae: {
+            hero: {
+                title: "Dubai: Luxury Gold Label Fashion",
+                description: "Opulent fabrics, gold accents, and modest luxury define Dubai's unique blend of traditional and ultra-modern fashion.",
+                tag: "Dubai"
+            },
+            growth: "+62%",
+            location: "Dubai",
+            categories: ["Luxury Gold", "Modest Fashion", "Opulent"],
+            trendNames: [
+                "Dubai Gold Label", "Marina Luxury", "Downtown Modern", "Jumeirah Beach Elegant",
+                "DIFC Elite", "City Walk Trendy", "Al Fahidi Heritage", "Business Bay Contemporary",
+                "Palm Jumeirah Resort", "Deira Traditional"
+            ]
+        },
+        singapore: {
+            hero: {
+                title: "Singapore: Tropical Minimalism",
+                description: "Clean lines and breathable fabrics meet in Singapore's fashion scene, blending Eastern and Western aesthetics.",
+                tag: "Central Region"
+            },
+            growth: "+49%",
+            location: "Singapore",
+            categories: ["Tropical Minimal", "East-West", "Contemporary"],
+            trendNames: [
+                "Marina Bay Modern", "Orchard Luxury", "Chinatown Heritage", "Kampong Glam Fusion",
+                "Sentosa Resort", "Clarke Quay Urban", "Tiong Bahru Vintage", "Holland Village Casual",
+                "Dempsey Elegant", "Raffles Place Elite"
+            ]
+        },
+        southkorea: {
+            hero: {
+                title: "Seoul: K-Fashion Innovation",
+                description: "Seoul leads global trends with innovative streetwear, tech-fabrics, and a unique blend of minimalism and boldness.",
+                tag: "Seoul"
+            },
+            growth: "+60%",
+            location: "Seoul",
+            categories: ["K-Fashion", "Street Wear", "Tech-Fabric"],
+            trendNames: [
+                "Gangnam Style", "Hongdae Street", "Myeongdong Trendy", "Itaewon Fusion",
+                "Garosugil Elegant", "Dongdaemun Fashion", "Insadong Traditional", "Apgujeong Luxury",
+                "Sinchon Youth", "Samcheong Artistic"
+            ]
+        }
+    };
+    
+    const data = regionalData[countryCode];
+    if (!data) return;
+    
+    // Update Hero Section
+    const heroTitle = document.querySelector('.relative.z-10.text-white h2');
+    const heroDescription = document.querySelector('.relative.z-10.text-white p');
+    const heroTag = document.querySelector('.relative.z-10.text-white .flex.gap-2 span:last-child');
+    
+    if (heroTitle) heroTitle.textContent = data.hero.title;
+    if (heroDescription) heroDescription.textContent = data.hero.description;
+    if (heroTag) heroTag.textContent = data.hero.tag;
+    
+    // Update Growth Metrics
+    const growthElement = document.querySelector('.font-headline-lg.text-headline-lg.text-primary');
+    const locationElement = document.querySelector('.font-label-sm.text-label-sm.text-on-surface-variant.uppercase.tracking-widest.mb-1');
+    
+    if (growthElement) growthElement.textContent = data.growth;
+    if (locationElement) locationElement.textContent = `Growth Velocity (${data.location})`;
+    
+    // Update Top Categories
+    const categoriesContainer = document.querySelector('.flex.flex-wrap.gap-2');
+    if (categoriesContainer) {
+        categoriesContainer.innerHTML = data.categories.map(cat => 
+            `<span class="bg-surface-container border border-outline-variant/20 px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface">${cat}</span>`
+        ).join('');
+    }
+    
+    // Update Trend Gallery Names
+    const trendCards = document.querySelectorAll('.glass-card.rounded-2xl.p-4 h4');
+    trendCards.forEach((card, index) => {
+        if (index < data.trendNames.length) {
+            card.textContent = data.trendNames[index];
+        }
+    });
+    
+    // Update visible cards based on country (show/hide for relevance)
+    const allTrendCards = document.querySelectorAll('.glass-card.rounded-2xl.p-4.flex.flex-col.gap-4');
+    allTrendCards.forEach((card, index) => {
+        // Show all cards with smooth animation
+        card.style.display = 'flex';
+        card.style.animation = 'fadeIn 0.6s ease-in-out';
+        card.style.animationDelay = `${index * 0.05}s`;
+    });
+    
+    // Fetch country-specific images from Unsplash
+    fetchCountryImages(countryCode, data.location);
+    
+    // Add smooth animation effect
+    document.querySelector('main').style.animation = 'fadeIn 0.5s ease-in-out';
+}
+
+// Function to fetch country-specific fashion images from Unsplash
+function fetchCountryImages(countryCode, cityName) {
+    const imageContainers = document.querySelectorAll('.glass-card.rounded-2xl.p-4 .relative.w-full.aspect-\\[3\\/4\\] img');
+    
+    // Search queries tailored to each country's fashion style
+    const searchQueries = {
+        india: ['indian fashion', 'mumbai street style', 'ethnic wear india', 'bollywood fashion', 'fusion fashion india', 'indian designer', 'saree fashion', 'indian streetwear', 'desi fashion', 'india style'],
+        usa: ['new york fashion', 'american streetwear', 'minimalist fashion usa', 'brooklyn style', 'manhattan fashion', 'usa designer', 'american style', 'nyc fashion', 'urban fashion usa', 'preppy style'],
+        uk: ['london fashion', 'british style', 'heritage fashion uk', 'uk streetwear', 'british designer', 'london street style', 'uk fashion week', 'british chic', 'english style', 'london trendy'],
+        france: ['paris fashion', 'french chic', 'haute couture', 'parisian style', 'french designer', 'paris street style', 'french elegance', 'champs elysees fashion', 'french fashion week', 'parisian chic'],
+        germany: ['berlin fashion', 'german streetwear', 'minimal fashion berlin', 'german designer', 'berlin street style', 'german fashion week', 'contemporary fashion germany', 'berlin trendy', 'german style', 'tech fashion berlin'],
+        italy: ['milan fashion', 'italian luxury', 'elegant fashion italy', 'milano style', 'italian designer', 'italian fashion week', 'tuscan style', 'italian chic', 'rome fashion', 'italian elegance'],
+        spain: ['barcelona fashion', 'spanish style', 'mediterranean fashion', 'madrid fashion', 'spanish designer', 'flamenco inspired', 'barcelona street style', 'spanish fashion week', 'ibiza style', 'spanish chic'],
+        japan: ['tokyo fashion', 'japanese streetwear', 'harajuku style', 'shibuya fashion', 'japanese designer', 'tokyo street style', 'japanese fashion week', 'osaka fashion', 'japanese minimalist', 'kyoto style'],
+        china: ['shanghai fashion', 'chinese fashion', 'asian streetwear', 'beijing style', 'chinese designer', 'modern chinese fashion', 'shanghai street style', 'contemporary china fashion', 'asian luxury', 'chinese chic'],
+        australia: ['sydney fashion', 'australian style', 'beach fashion australia', 'melbourne street style', 'aussie designer', 'coastal fashion', 'bondi style', 'australian fashion week', 'relaxed luxury australia', 'sydney street style'],
+        canada: ['toronto fashion', 'canadian style', 'urban fashion canada', 'montreal fashion', 'canadian designer', 'vancouver style', 'toronto street style', 'canadian fashion week', 'canada urban wear', 'contemporary canada'],
+        brazil: ['sao paulo fashion', 'brazilian style', 'tropical fashion', 'rio fashion', 'brazilian designer', 'carnival inspired', 'brazil street style', 'brazilian fashion week', 'tropical prints brazil', 'brazilian chic'],
+        uae: ['dubai fashion', 'luxury fashion uae', 'modest fashion dubai', 'arabic fashion', 'emirates designer', 'dubai luxury style', 'middle east fashion', 'dubai fashion week', 'modest luxury', 'arabic elegant'],
+        singapore: ['singapore fashion', 'asian minimal singapore', 'tropical style singapore', 'singapore designer', 'singapore street style', 'contemporary asian fashion', 'singapore fashion week', 'singapore chic', 'southeast asia style', 'modern singapore'],
+        southkorea: ['seoul fashion', 'k-fashion', 'korean streetwear', 'gangnam style fashion', 'korean designer', 'kpop fashion', 'seoul street style', 'korean fashion week', 'contemporary korea', 'k-style']
+    };
+    
+    const queries = searchQueries[countryCode] || ['fashion', 'style', 'designer wear', 'trendy fashion', 'contemporary fashion'];
+    
+    imageContainers.forEach((img, index) => {
+        const query = queries[index % queries.length];
+        // Using Unsplash Source API (free, no key required)
+        // Adding timestamp and index ensures unique images each time
+        const randomSeed = Date.now() + index + Math.floor(Math.random() * 1000);
+        const newImageUrl = `https://source.unsplash.com/400x600/?${encodeURIComponent(query)}&sig=${randomSeed}`;
+        
+        // Smooth image transition with fade effect
+        img.style.transition = 'opacity 0.3s ease-in-out';
+        img.style.opacity = '0.3';
+        
+        setTimeout(() => {
+            // Create a new image to preload
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                img.src = newImageUrl;
+                img.style.opacity = '1';
+            };
+            tempImg.onerror = () => {
+                // Fallback: keep existing image if Unsplash fails
+                img.style.opacity = '1';
+                console.log('Image load failed, keeping original');
+            };
+            tempImg.src = newImageUrl;
+        }, index * 100); // Stagger the loading
+    });
+    
+    // Also update hero background image
+    updateHeroImage(countryCode, cityName);
+}
+
+// Function to update hero section background image
+function updateHeroImage(countryCode, cityName) {
+    const heroImage = document.querySelector('.absolute.inset-0 img');
+    if (!heroImage) return;
+    
+    const heroQueries = {
+        india: 'mumbai skyline fashion',
+        usa: 'new york fashion',
+        uk: 'london fashion',
+        france: 'paris fashion eiffel',
+        germany: 'berlin fashion',
+        italy: 'milan fashion',
+        spain: 'barcelona fashion',
+        japan: 'tokyo fashion',
+        china: 'shanghai fashion',
+        australia: 'sydney opera fashion',
+        canada: 'toronto fashion',
+        brazil: 'sao paulo fashion',
+        uae: 'dubai fashion luxury',
+        singapore: 'singapore fashion',
+        southkorea: 'seoul fashion'
+    };
+    
+    const query = heroQueries[countryCode] || 'luxury fashion';
+    const heroImageUrl = `https://source.unsplash.com/1200x800/?${encodeURIComponent(query)}&sig=${Date.now()}`;
+    
+    // Smooth transition for hero image
+    heroImage.style.transition = 'opacity 0.5s ease-in-out';
+    heroImage.style.opacity = '0.5';
+    
+    setTimeout(() => {
+        const tempImg = new Image();
+        tempImg.onload = () => {
+            heroImage.src = heroImageUrl;
+            heroImage.style.opacity = '1';
+        };
+        tempImg.onerror = () => {
+            heroImage.style.opacity = '1';
+        };
+        tempImg.src = heroImageUrl;
+    }, 300);
+}
+
+// Initialize states on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Populate states for initially selected country (India)
+    populateStates('india');
+    
+    // Add event listener for country change
+    countrySelector.addEventListener('change', function(e) {
+        const selectedCountry = e.target.value;
+        populateStates(selectedCountry);
+    });
+    
+    // Add event listener for state change
+    stateSelector.addEventListener('change', function(e) {
+        const selectedCountry = countrySelector.value;
+        const selectedState = e.target.options[e.target.selectedIndex].text;
+        updateRegionalContent(selectedCountry, selectedState);
+        console.log(`State changed to: ${selectedState}`);
+    });
+});
+</script>
+</body>
+</html>

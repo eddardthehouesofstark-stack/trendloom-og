@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        #uploadZone {
+            border: 3px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        #uploadZone:hover {
+            border-color: #0D9488;
+            background: #f0fffe;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        #preview {
+            max-width: 300px;
+            margin: 20px auto;
+            display: none;
+        }
+        #preview img {
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Image Upload to Backend</h1>
+    <p>This page tests if image upload works to <code>http://localhost:8000/api/image/analyze</code></p>
+    
+    <div id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <h2>📤 Click or Drop Image Here</h2>
+        <p>Any image file (JPG, PNG, etc.)</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+    
+    <div id="preview">
+        <h3>Preview:</h3>
+        <img id="previewImg" />
+    </div>
+    
+    <div id="result">
+        <strong>Status:</strong> Waiting for upload...
+    </div>
+    
+    <script>
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const result = document.getElementById('result');
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('previewImg');
+        
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+        
+        // Handle drag & drop
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#0D9488';
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#ccc';
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+        
+        async function handleFile(file) {
+            result.innerHTML = '<span class="success">📤 Uploading...</span>';
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to backend
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/image/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `
+<span class="success">✅ SUCCESS! HTTP ${response.status}</span>
+
+<strong>Results:</strong>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Category: ${data.category}
+Confidence: ${(data.confidence * 100).toFixed(1)}%
+Style: ${data.style || 'N/A'}
+Pattern: ${data.pattern || 'N/A'}
+Material: ${data.material || 'N/A'}
+
+Colors (${data.colors ? data.colors.length : 0}):
+${data.colors ? data.colors.map(c => `  • ${c.name} - ${c.hex} (${c.percentage.toFixed(1)}%)`).join('\n') : '  None detected'}
+
+Attributes:
+${data.detected_attributes ? Object.entries(data.detected_attributes).map(([k, v]) => `  • ${k}: ${v}`).join('\n') : '  None'}
+
+AI Tags: ${data.ai_tags ? data.ai_tags.join(', ') : 'None'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<strong>Raw JSON Response:</strong>
+${JSON.stringify(data, null, 2)}
+                    `;
+                } else {
+                    result.innerHTML = `
+<span class="error">❌ ERROR HTTP ${response.status}</span>
+
+${JSON.stringify(data, null, 2)}
+                    `;
+                }
+            } catch (error) {
+                result.innerHTML = `
+<span class="error">❌ FAILED</span>
+
+Error: ${error.message}
+
+Make sure:
+1. Backend is running on http://localhost:8000
+2. CORS is enabled
+3. Network allows connections
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

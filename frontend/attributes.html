@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrendLoom - Attribute Analyzer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+"colors": {
+"surface-container": "#edeef0",
+"surface-container-lowest": "#ffffff",
+"inverse-on-surface": "#f0f1f3",
+"surface-tint": "#515f78",
+"on-secondary": "#ffffff",
+"primary-fixed": "#d6e3ff",
+"secondary-fixed": "#89f5e7",
+"outline": "#75777e",
+"surface-container-low": "#f3f4f6",
+"on-tertiary-container": "#848480",
+"surface-container-highest": "#e1e2e4",
+"on-primary-fixed-variant": "#39475f",
+"surface-bright": "#f8f9fb",
+"surface-container-high": "#e7e8ea",
+"on-primary": "#ffffff",
+"on-primary-container": "#76849f",
+"primary": "#000000",
+"on-surface-variant": "#44474d",
+"on-error": "#ffffff",
+"on-tertiary": "#ffffff",
+"on-background": "#191c1e",
+"on-error-container": "#93000a",
+"surface-variant": "#e1e2e4",
+"on-tertiary-fixed-variant": "#474744",
+"error-container": "#ffdad6",
+"on-secondary-fixed-variant": "#005049",
+"outline-variant": "#c5c6cd",
+"inverse-primary": "#b9c7e4",
+"on-tertiary-fixed": "#1b1c19",
+"on-secondary-fixed": "#00201d",
+"on-surface": "#191c1e",
+"error": "#ba1a1a",
+"secondary-container": "#86f2e4",
+"secondary-fixed-dim": "#6bd8cb",
+"primary-container": "#0d1c32",
+"tertiary-fixed": "#e4e2dd",
+"surface-dim": "#d9dadc",
+"on-primary-fixed": "#0d1c32",
+"on-secondary-container": "#006f66",
+"tertiary": "#000000",
+"secondary": "#006a61",
+"surface": "#f8f9fb",
+"inverse-surface": "#2e3132",
+"primary-fixed-dim": "#b9c7e4",
+"tertiary-fixed-dim": "#c8c6c2",
+"tertiary-container": "#1b1c19",
+"background": "#f8f9fb"
+},
+"borderRadius": {
+"DEFAULT": "0.25rem",
+"lg": "0.5rem",
+"xl": "0.75rem",
+"full": "9999px"
+},
+"spacing": {
+"margin-mobile": "16px",
+"gutter": "24px",
+"stack-lg": "32px",
+"stack-md": "16px",
+"sidebar-width": "280px",
+"stack-sm": "8px",
+"margin-desktop": "40px"
+},
+"fontFamily": {
+"label-sm": ["Inter"],
+"display-lg": ["Playfair Display"],
+"headline-lg": ["Playfair Display"],
+"body-lg": ["Inter"],
+"label-md": ["Inter"],
+"body-md": ["Inter"],
+"headline-lg-mobile": ["Playfair Display"],
+"headline-md": ["Playfair Display"]
+},
+"fontSize": {
+"label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+"display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+"headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+"body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+"label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+"body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+"headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+"headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #F9F7F2;
+}
+/* Tactical Grain Overlay */
+body::before {
+content: "";
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+pointer-events: none;
+z-index: 9999;
+opacity: 0.05;
+background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+.material-symbols-outlined {
+font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.fill-icon {
+font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slideUp {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Smooth scrollbar for modal */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+font-variation-settings: 'FILL' 1;
+}
+.premium-shadow {
+box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04);
+}
+@keyframes scan {
+0% { transform: translateY(0); opacity: 0; }
+10% { opacity: 1; }
+90% { opacity: 1; }
+100% { transform: translateY(500px); opacity: 0; }
+}
+</style>
+</head>
+<body class="font-body-md text-on-surface antialiased bg-background">
+<!-- SideNavBar -->
+<aside class="bg-primary-container dark:bg-primary-container fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant/20 dark:border-outline/10 shadow-sm flex flex-col py-margin-desktop z-50 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="font-display-lg text-display-lg text-on-primary-fixed italic tracking-tight font-extrabold text-[32px] leading-tight">TrendLoom</span>
+<span class="font-label-sm text-label-sm text-on-primary-container mt-2">Executive Dashboard</span>
+</div>
+<div class="flex-1 overflow-y-auto pb-6">
+<!-- Workspace -->
+<div class="px-6 py-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="dashboard.html">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="explore.html">
+<span class="material-symbols-outlined text-[18px]">travel_explore</span>
+            Explore Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="seasonal.html">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            Seasonal Intelligence
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="regional.html">
+<span class="material-symbols-outlined text-[18px]">public</span>
+            Regional Demand
+        </a>
+</nav>
+<!-- Decision Support -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Decision Support</span>
+</div>
+<nav class="flex flex-col gap-1 mb-4">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="competitor.html">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+            Competitor Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="recommendation.html">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+            Recommendations
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-container/10 hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group active" href="attributes.html">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">category</span>
+            Attribute Analyzer
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+            Saved Trends
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Reports &amp; Exports
+        </a>
+</nav>
+<!-- Workspace Management -->
+<div class="px-6 py-2 mt-4">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-wider text-[10px]">Workspace Management</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+            Feedback &amp; Outcomes
+        </a>
+<a class="flex items-center gap-4 py-2 px-6 text-on-primary-fixed-variant hover:bg-on-primary-fixed/5 transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+            Settings
+        </a>
+</nav>
+</div>
+</aside>
+
+<!-- Mobile Top Bar -->
+<header class="md:hidden fixed top-0 w-full z-40 backdrop-blur-md bg-surface/80 shadow-sm flex justify-between items-center h-16 px-margin-mobile">
+<div class="font-headline-md text-headline-md tracking-tighter text-primary">TrendLoom</div>
+<button id="upload-button-mobile" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-label-md text-label-md">
+<span class="material-symbols-outlined">upload</span>
+</button>
+</header>
+
+<!-- Main Content Canvas -->
+<main class="md:ml-sidebar-width px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col gap-stack-lg max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-stack-lg">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-primary mb-2">Attribute Analyzer</h1>
+<p class="font-body-lg text-on-surface-variant">Upload a design to extract granular material, color, and silhouette intelligence.</p>
+</div>
+
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Upload / Visual Focus Area (Span 7) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter">
+<!-- Image Container -->
+<div id="image-container" class="bg-surface-container-lowest rounded-xl p-4 premium-shadow border border-outline-variant/10 flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden group cursor-pointer transition-all">
+<!-- Placeholder Image or upload prompt -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-surface-container-low/50">
+<span class="material-symbols-outlined text-[64px] text-on-surface-variant mb-4">image</span>
+<h3 class="font-headline-md text-on-surface mb-2">Drop Your Fashion Image Here</h3>
+<p class="font-body-md text-on-surface-variant mb-4">or click to browse files</p>
+<button id="upload-button" class="bg-secondary text-on-secondary px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-secondary/90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">upload_file</span>
+Upload Image
+</button>
+<input type="file" id="file-input" accept="image/*" class="hidden" />
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-4">Supports JPG, PNG, WEBP (Max 10MB)</p>
+</div>
+<!-- Status Badge (Initially hidden) -->
+<div class="absolute top-6 left-6 hidden">
+<div id="status-badge" class="inline-flex items-center gap-2 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-outline-variant/20">
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<span class="font-label-sm text-label-sm text-primary">Ready</span>
+</div>
+</div>
+<!-- Title (Initially hidden) -->
+<div class="absolute bottom-6 left-6 right-6 hidden">
+<h2 id="image-title" class="font-headline-md text-surface-container-lowest drop-shadow-md">Fashion Item</h2>
+</div>
+</div>
+<!-- Error Container -->
+<div id="error-container" class="mt-4"></div>
+</div>
+
+<!-- Analysis Panel (Span 5) -->
+<div class="lg:col-span-5 flex flex-col gap-gutter">
+<!-- Top Recommendation Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 premium-shadow border border-outline-variant/10">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-1">Production Decision</h3>
+<div id="recommendation-decision" class="font-headline-md text-on-surface-variant">Awaiting Analysis</div>
+</div>
+<div class="text-right">
+<div id="demand-score" class="font-display-lg text-primary leading-none">--<span class="text-xl text-on-surface-variant">/100</span></div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Demand Score</div>
+</div>
+</div>
+<div class="bg-surface p-4 rounded-lg border border-outline-variant/20">
+<p id="recommendation-text" class="font-body-md text-on-surface-variant">Upload an image to get AI-powered production recommendations based on current market trends and demand signals.</p>
+</div>
+</div>
+
+<!-- Granular Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl p-6 premium-shadow border border-outline-variant/10 flex-1">
+<h3 class="font-headline-md text-primary mb-6 border-b border-outline-variant/20 pb-4">Attribute Breakdown</h3>
+<!-- Silhouette -->
+<div class="mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">straighten</span>
+<h4 class="font-label-md text-label-md text-on-surface uppercase">Silhouette &amp; Design</h4>
+</div>
+<div id="silhouette-tags" class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-label-sm text-label-sm text-on-surface-variant border border-outline-variant/20">Awaiting Analysis</span>
+</div>
+</div>
+
+<!-- Materials -->
+<div class="mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">texture</span>
+<h4 class="font-label-md text-label-md text-on-surface uppercase">Identified Materials</h4>
+</div>
+<ul id="materials-list" class="space-y-3">
+<li class="flex justify-between items-center">
+<span class="font-body-md text-on-surface-variant">Awaiting analysis...</span>
+</li>
+</ul>
+</div>
+
+<!-- Color Palette -->
+<div>
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">palette</span>
+<h4 class="font-label-md text-label-md text-on-surface uppercase">Color Extraction</h4>
+</div>
+<div id="color-swatches" class="flex gap-4 flex-wrap">
+<span class="text-on-surface-variant text-sm">Upload image to extract colors</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Mobile Bottom Nav Bar -->
+<nav class="flex md:hidden justify-around items-center h-16 px-4 pb-safe bg-surface-container-highest shadow-[0_-4px_20px_rgba(10,25,47,0.04)] fixed bottom-0 left-0 w-full z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-full h-full rounded-lg transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-full h-full rounded-lg transition-colors" href="explore.html">
+<span class="material-symbols-outlined">travel_explore</span>
+<span class="font-label-sm text-label-sm">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary bg-secondary-container/30 w-full h-full rounded-lg transition-colors" href="attributes.html">
+<span class="material-symbols-outlined fill-icon">category</span>
+<span class="font-label-sm text-label-sm">Analyze</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 w-full h-full rounded-lg transition-colors" href="recommendation.html">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="font-label-sm text-label-sm">Recommend</span>
+</a>
+</nav>
+
+<!-- API Integration Scripts -->
+<script src="js/api.js?v=20260814144200"></script>
+<script src="js/attributes.js?v=20260814144200"></script>
+</body>
+</html>

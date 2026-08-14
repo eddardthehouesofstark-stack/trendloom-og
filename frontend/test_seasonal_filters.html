@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Filters Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            padding: 40px;
+            background: #f9f9f9;
+        }
+        .test-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-family: monospace;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .info { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 16px;">🧪 Seasonal Filter Function Test</h1>
+        <p style="margin-bottom: 20px; color: #666;">This page tests if the filter buttons work correctly.</p>
+        
+        <!-- Region Selector (same as seasonal.html) -->
+        <div style="margin-bottom: 24px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Region Selector:</label>
+            <div class="flex bg-white rounded-lg p-1 border" style="display: inline-flex; gap: 4px;">
+                <button class="px-4 py-2 rounded-md text-sm bg-blue-100 text-blue-700 font-semibold region-btn active" 
+                        data-region="global" 
+                        onclick="switchRegion('global')">Global</button>
+                <button class="px-4 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-100 region-btn" 
+                        data-region="na" 
+                        onclick="switchRegion('na')">NA</button>
+                <button class="px-4 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-100 region-btn" 
+                        data-region="eu" 
+                        onclick="switchRegion('eu')">EU</button>
+                <button class="px-4 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-100 region-btn" 
+                        data-region="apac" 
+                        onclick="switchRegion('apac')">APAC</button>
+            </div>
+        </div>
+
+        <!-- Season Selector -->
+        <div style="margin-bottom: 24px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Season/Year Selector:</label>
+            <select id="seasonYearSelector" 
+                    class="bg-white border rounded-lg px-4 py-2 text-sm" 
+                    onchange="switchSeasonYear(this.value)" 
+                    style="cursor: pointer;">
+                <option value="fw24">FW24/25</option>
+                <option value="ss24">SS24</option>
+                <option value="fw23">FW23/24</option>
+            </select>
+        </div>
+
+        <!-- Status Display -->
+        <div id="statusDisplay" class="status info">
+            <strong>Current Status:</strong><br>
+            Region: <span id="currentRegion">global</span><br>
+            Season: <span id="currentSeason">fw24</span><br>
+            Click Count: <span id="clickCount">0</span>
+        </div>
+
+        <!-- Console Log -->
+        <div style="margin-top: 20px;">
+            <strong>Console Output:</strong>
+            <div id="consoleLog" style="background: #1e293b; color: #10b981; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; margin-top: 8px;">
+                Ready. Click buttons above to test...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize variables
+        window.currentRegion = 'global';
+        window.currentSeason = 'fw24';
+        let clickCount = 0;
+
+        // Console override for display
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const logDiv = document.getElementById('consoleLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `<div>[${timestamp}] ${args.join(' ')}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        };
+
+        console.log('✅ Script loaded successfully');
+
+        // Region data
+        const regionData = {
+            global: { name: "Global Markets", description: "Worldwide fashion trends" },
+            na: { name: "North America", description: "US and Canada markets" },
+            eu: { name: "Europe", description: "European fashion capitals" },
+            apac: { name: "Asia-Pacific", description: "Asian markets" }
+        };
+
+        // Season data
+        const seasonYearData = {
+            fw24: { label: "FW24/25", description: "Fall/Winter 2024-2025" },
+            ss24: { label: "SS24", description: "Spring/Summer 2024" },
+            fw23: { label: "FW23/24", description: "Fall/Winter 2023-2024" }
+        };
+
+        // Switch region function
+        window.switchRegion = function(region) {
+            clickCount++;
+            console.log(`🎯 switchRegion called with: ${region}`);
+            console.log(`   Click count: ${clickCount}`);
+            
+            window.currentRegion = region;
+            
+            // Update button styles
+            document.querySelectorAll('.region-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-100', 'text-blue-700', 'font-semibold', 'active');
+                btn.classList.add('text-gray-600');
+            });
+            
+            const activeBtn = document.querySelector(`[data-region="${region}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-blue-100', 'text-blue-700', 'font-semibold', 'active');
+                activeBtn.classList.remove('text-gray-600');
+                console.log(`✅ Button style updated for: ${region}`);
+            } else {
+                console.log(`❌ Button not found for: ${region}`);
+            }
+            
+            // Update status display
+            updateStatus();
+            
+            console.log(`✅ Region switched to: ${regionData[region].name}`);
+        };
+
+        // Switch season function
+        window.switchSeasonYear = function(seasonYear) {
+            clickCount++;
+            console.log(`🎯 switchSeasonYear called with: ${seasonYear}`);
+            console.log(`   Click count: ${clickCount}`);
+            
+            window.currentSeason = seasonYear;
+            
+            // Update status display
+            updateStatus();
+            
+            console.log(`✅ Season switched to: ${seasonYearData[seasonYear].label}`);
+        };
+
+        // Update status display
+        function updateStatus() {
+            document.getElementById('currentRegion').textContent = 
+                `${window.currentRegion} (${regionData[window.currentRegion].name})`;
+            document.getElementById('currentSeason').textContent = 
+                `${window.currentSeason} (${seasonYearData[window.currentSeason].label})`;
+            document.getElementById('clickCount').textContent = clickCount;
+            
+            const statusDiv = document.getElementById('statusDisplay');
+            statusDiv.className = 'status success';
+        }
+
+        console.log('✅ All functions registered');
+        console.log('👉 Try clicking the buttons above!');
+    </script>
+</body>
+</html>
