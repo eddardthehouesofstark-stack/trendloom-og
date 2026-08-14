@@ -8,11 +8,11 @@ pydantic-settings==2.1.0
 sqlalchemy==2.0.25
 aiosqlite==0.19.0
 
-# Data Collection - simple only
+# Data Collection
 requests==2.31.0
 
-# AI/ML - Only Pillow for image processing
-Pillow==10.0.0
+# Image processing - using older stable version
+Pillow==9.5.0
 
 # Utilities
 python-multipart==0.0.6
