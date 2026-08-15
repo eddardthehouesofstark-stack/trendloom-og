@@ -8,10 +8,7 @@
 
 ## 🚀 Live Demo
 
-- **Dashboard**: [trendloom.vercel.app](https://trendloom.vercel.app)
-- **API Docs**: [API Documentation](https://trendloom-backend.onrender.com/docs)
-
----
+- **Dashboard**: https://trendloom-og-34qi.vercel.app/explore.html#
 
 ## 📊 What is TrendLoom?
 
